@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import { Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { supabase } from "@/integrations/supabase/client";
 
 type NewsItem = {
   id: string;
   title: string;
   slug: string;
+  excerpt: string | null;
   content: string;
   published_at: string;
 };
