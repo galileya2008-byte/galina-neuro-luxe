@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import AdminArticles from "@/components/admin/AdminArticles";
+import AdminNews from "@/components/admin/AdminNews";
 import AdminGallery from "@/components/admin/AdminGallery";
 import AdminMessages from "@/components/admin/AdminMessages";
 import { LogOut, Home } from "lucide-react";
@@ -75,12 +76,16 @@ const Admin = () => {
         <Tabs defaultValue="articles">
           <TabsList className="mb-6">
             <TabsTrigger value="articles">Статьи</TabsTrigger>
+            <TabsTrigger value="news">Новости</TabsTrigger>
             <TabsTrigger value="gallery">Галерея</TabsTrigger>
             <TabsTrigger value="messages">Сообщения</TabsTrigger>
           </TabsList>
 
           <TabsContent value="articles">
             <AdminArticles />
+          </TabsContent>
+          <TabsContent value="news">
+            <AdminNews />
           </TabsContent>
           <TabsContent value="gallery">
             <AdminGallery />

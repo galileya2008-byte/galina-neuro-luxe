@@ -22,6 +22,7 @@ export type Database = {
           excerpt: string | null
           id: string
           published: boolean
+          published_at: string | null
           slug: string
           title: string
           updated_at: string
@@ -33,6 +34,7 @@ export type Database = {
           excerpt?: string | null
           id?: string
           published?: boolean
+          published_at?: string | null
           slug: string
           title: string
           updated_at?: string
@@ -44,6 +46,7 @@ export type Database = {
           excerpt?: string | null
           id?: string
           published?: boolean
+          published_at?: string | null
           slug?: string
           title?: string
           updated_at?: string
@@ -101,6 +104,45 @@ export type Database = {
           image_url?: string
           sort_order?: number
           title?: string | null
+        }
+        Relationships: []
+      }
+      news: {
+        Row: {
+          content: string
+          cover_image_url: string | null
+          created_at: string
+          excerpt: string | null
+          id: string
+          published: boolean
+          published_at: string | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published?: boolean
+          published_at?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published?: boolean
+          published_at?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }

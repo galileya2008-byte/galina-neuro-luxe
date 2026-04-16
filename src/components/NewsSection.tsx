@@ -1,0 +1,86 @@
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Calendar, ArrowRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
+type NewsItem = {
+  id: string;
+  title: string;
+  excerpt: string | null;
+  published_at: string;
+};
+
+const NewsSection = () => {
+  const [news, setNews] = useState<NewsItem[]>([]);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      const { data } = await supabase
+        .from("news")
+        .select("id, title, excerpt, published_at")
+        .eq("published", true)
+        .lte("published_at", new Date().toISOString())
+        .order("published_at", { ascending: false })
+        .limit(4);
+      if (data) setNews(data);
+    };
+    fetchNews();
+  }, []);
+
+  if (news.length === 0) return null;
+
+  return (
+    <section id="news" className="py-24 px-6 bg-background">
+      <div className="container mx-auto max-w-6xl">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <p className="font-body text-sm tracking-[0.2em] uppercase text-primary mb-3">
+            Анонсы
+          </p>
+          <h2 className="font-heading text-4xl md:text-5xl font-light text-foreground">
+            Ближайшие <span className="italic text-primary">мастер-классы</span>
+          </h2>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          {news.map((item, index) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-card rounded-2xl border border-border p-6 hover:border-primary/30 transition-colors"
+            >
+              <div className="flex items-center gap-2 text-primary mb-3">
+                <Calendar size={16} />
+                <time className="text-sm font-body font-medium">
+                  {new Date(item.published_at).toLocaleDateString("ru", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </time>
+              </div>
+              <h3 className="font-heading text-lg font-semibold text-foreground mb-2">
+                {item.title}
+              </h3>
+              {item.excerpt && (
+                <p className="text-muted-foreground font-body text-sm leading-relaxed">
+                  {item.excerpt}
+                </p>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default NewsSection;

@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Edit, Trash2, Eye, EyeOff, ImagePlus } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, EyeOff, ImagePlus, Clock } from "lucide-react";
 import RichTextEditor from "./RichTextEditor";
 
 type Article = {
@@ -14,6 +14,7 @@ type Article = {
   excerpt: string | null;
   cover_image_url: string | null;
   published: boolean;
+  published_at: string | null;
   created_at: string;
 };
 
@@ -21,7 +22,12 @@ const AdminArticles = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [editing, setEditing] = useState<Article | null>(null);
   const [isNew, setIsNew] = useState(false);
-  const [form, setForm] = useState({ title: "", slug: "", content: "", excerpt: "", cover_image_url: "", published: false });
+  const [form, setForm] = useState({ title: "", slug: "", content: "", excerpt: "", cover_image_url: "", published: false, published_at: "" });
+  
+  const toLocalDatetime = (iso: string) => {
+    const d = new Date(iso);
+    return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+  };
   const { toast } = useToast();
 
   useEffect(() => { fetchArticles(); }, []);
@@ -40,7 +46,7 @@ const AdminArticles = () => {
   const startNew = () => {
     setIsNew(true);
     setEditing(null);
-    setForm({ title: "", slug: "", content: "", excerpt: "", cover_image_url: "", published: false });
+    setForm({ title: "", slug: "", content: "", excerpt: "", cover_image_url: "", published: false, published_at: toLocalDatetime(new Date().toISOString()) });
   };
 
   const startEdit = (article: Article) => {
@@ -53,6 +59,7 @@ const AdminArticles = () => {
       excerpt: article.excerpt || "",
       cover_image_url: article.cover_image_url || "",
       published: article.published,
+      published_at: article.published_at ? toLocalDatetime(article.published_at) : toLocalDatetime(new Date().toISOString()),
     });
   };
 
@@ -94,6 +101,7 @@ const AdminArticles = () => {
       excerpt: form.excerpt || null,
       cover_image_url: form.cover_image_url || null,
       published: form.published,
+      published_at: form.published_at ? new Date(form.published_at).toISOString() : new Date().toISOString(),
     };
 
     if (isNew) {
@@ -153,6 +161,20 @@ const AdminArticles = () => {
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">Содержание</label>
           <RichTextEditor content={form.content} onChange={(html) => setForm(f => ({ ...f, content: html }))} />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-foreground flex items-center gap-2">
+            <Clock size={14} /> Дата публикации (для отложенного постинга)
+          </label>
+          <Input
+            type="datetime-local"
+            value={form.published_at}
+            onChange={(e) => setForm({ ...form, published_at: e.target.value })}
+          />
+          <p className="text-xs text-muted-foreground">
+            Если дата в будущем — статья появится автоматически в указанное время
+          </p>
         </div>
 
         <div className="flex items-center gap-4">

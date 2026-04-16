@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import NewsSidebar from "./NewsSidebar";
 
 type Article = {
   id: string;
@@ -48,45 +49,62 @@ const ArticlesSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {articles.map((article, index) => (
+        <div className="flex flex-col lg:flex-row gap-10">
+          {/* Articles grid */}
+          <div className="flex-1">
+            <div className="grid md:grid-cols-2 gap-8">
+              {articles.map((article, index) => (
+                <motion.div
+                  key={article.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.15 }}
+                >
+                  <Link to={`/articles/${article.slug}`}>
+                    <article className="bg-card rounded-2xl overflow-hidden shadow-card border border-border hover:border-primary/30 transition-colors cursor-pointer group h-full flex flex-col">
+                      {article.cover_image_url && (
+                        <img
+                          src={article.cover_image_url}
+                          alt={article.title}
+                          className="w-full h-48 object-cover"
+                          loading="lazy"
+                        />
+                      )}
+                      <div className="p-6 flex-1 flex flex-col">
+                        <p className="text-xs text-muted-foreground font-body mb-3">
+                          {new Date(article.created_at).toLocaleDateString("ru", { day: "numeric", month: "long", year: "numeric" })}
+                        </p>
+                        <h3 className="font-heading text-lg font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
+                          {article.title}
+                        </h3>
+                        {article.excerpt && (
+                          <p className="text-muted-foreground font-body text-sm leading-relaxed flex-1">
+                            {article.excerpt}
+                          </p>
+                        )}
+                        <span className="text-primary text-sm mt-4 font-medium group-hover:underline">
+                          Читать →
+                        </span>
+                      </div>
+                    </article>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* News sidebar */}
+          <div className="lg:w-72 shrink-0">
             <motion.div
-              key={article.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <Link to={`/articles/${article.slug}`}>
-                <article className="bg-card rounded-2xl overflow-hidden shadow-card border border-border hover:border-primary/30 transition-colors cursor-pointer group h-full flex flex-col">
-                  {article.cover_image_url && (
-                    <img
-                      src={article.cover_image_url}
-                      alt={article.title}
-                      className="w-full h-48 object-cover"
-                      loading="lazy"
-                    />
-                  )}
-                  <div className="p-8 flex-1 flex flex-col">
-                    <p className="text-xs text-muted-foreground font-body mb-3">
-                      {new Date(article.created_at).toLocaleDateString("ru", { day: "numeric", month: "long", year: "numeric" })}
-                    </p>
-                    <h3 className="font-heading text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
-                      {article.title}
-                    </h3>
-                    {article.excerpt && (
-                      <p className="text-muted-foreground font-body text-sm leading-relaxed flex-1">
-                        {article.excerpt}
-                      </p>
-                    )}
-                    <span className="text-primary text-sm mt-4 font-medium group-hover:underline">
-                      Читать →
-                    </span>
-                  </div>
-                </article>
-              </Link>
+              <NewsSidebar />
             </motion.div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
