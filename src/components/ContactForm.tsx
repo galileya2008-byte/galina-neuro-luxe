@@ -43,6 +43,11 @@ const ContactForm = () => {
         variant: "destructive",
       });
     } else {
+      // Send Telegram notification (fire-and-forget)
+      supabase.functions.invoke("send-telegram", {
+        body: { name: formData.name.trim(), email: formData.email.trim() || null, message: formData.message.trim() },
+      }).catch(console.error);
+
       toast({
         title: "Сообщение отправлено!",
         description: "Галина свяжется с вами в ближайшее время",
