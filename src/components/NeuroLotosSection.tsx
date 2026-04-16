@@ -29,16 +29,26 @@ const PETAL_COLORS = [
   "hsl(280, 50%, 55%)",   // violet
 ];
 
+const getTodayKey = () => new Date().toISOString().slice(0, 10);
+
 const NeuroLotosSection = () => {
-  const [selectedMessage, setSelectedMessage] = useState<string | null>(null);
+  const [selectedMessage, setSelectedMessage] = useState<string | null>(() => {
+    const saved = localStorage.getItem("neurolotus_message");
+    const savedDate = localStorage.getItem("neurolotus_date");
+    return savedDate === getTodayKey() ? saved : null;
+  });
+  const [hasPickedToday] = useState(() => localStorage.getItem("neurolotus_date") === getTodayKey());
   const [usedIndices, setUsedIndices] = useState<Set<number>>(new Set());
   const [isRevealing, setIsRevealing] = useState(false);
 
   const handlePetalClick = useCallback((petalIndex: number) => {
-    if (isRevealing) return;
+    if (isRevealing || selectedMessage) return;
+
+    // Check if already picked today
+    if (localStorage.getItem("neurolotus_date") === getTodayKey()) return;
+
     setIsRevealing(true);
 
-    // Pick a random message that hasn't been used yet
     let available = MESSAGES.map((_, i) => i).filter(i => !usedIndices.has(i));
     if (available.length === 0) {
       setUsedIndices(new Set());
@@ -49,10 +59,13 @@ const NeuroLotosSection = () => {
     setUsedIndices(prev => new Set([...prev, randomIdx]));
 
     setTimeout(() => {
-      setSelectedMessage(MESSAGES[randomIdx]);
+      const msg = MESSAGES[randomIdx];
+      setSelectedMessage(msg);
+      localStorage.setItem("neurolotus_message", msg);
+      localStorage.setItem("neurolotus_date", getTodayKey());
       setIsRevealing(false);
     }, 800);
-  }, [isRevealing, usedIndices]);
+  }, [isRevealing, usedIndices, selectedMessage]);
 
   const petalCount = 8;
   const radius = 100;
@@ -146,7 +159,7 @@ const NeuroLotosSection = () => {
           )}
         </AnimatePresence>
 
-        {!selectedMessage && (
+        {!selectedMessage && !hasPickedToday && (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -156,7 +169,18 @@ const NeuroLotosSection = () => {
           </motion.p>
         )}
 
-        {/* CTA block */}
+        {!selectedMessage && hasPickedToday && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="font-body text-sm text-muted-foreground italic"
+          >
+            Вы уже получили своё послание сегодня. Приходите завтра ✨
+          </motion.p>
+        )}
+
+        {/* CTA block — only after picking */}
+        {selectedMessage && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -179,6 +203,7 @@ const NeuroLotosSection = () => {
             Получить урок — 970 ₽
           </Button>
         </motion.div>
+        )}
       </div>
     </section>
   );
