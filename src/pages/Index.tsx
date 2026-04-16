@@ -18,6 +18,7 @@ const Index = () => {
       <PiskarevSection />
       <ServicesSection />
       <GallerySection />
+      <NeuroLotosSection />
       <ArticlesSection />
       <ContactForm />
       <Footer />
