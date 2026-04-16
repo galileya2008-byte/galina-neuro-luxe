@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Send } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactForm = () => {
   const { toast } = useToast();
@@ -29,22 +30,27 @@ const ContactForm = () => {
 
     setIsSubmitting(true);
     
-    try {
-      // TODO: Connect to Telegram via edge function
-      toast({
-        title: "Сообщение отправлено!",
-        description: "Галина свяжется с вами в ближайшее время",
-      });
-      setFormData({ name: "", email: "", message: "" });
-    } catch {
+    const { error } = await supabase.from("contact_messages").insert({
+      name: formData.name.trim(),
+      email: formData.email.trim() || null,
+      message: formData.message.trim(),
+    });
+
+    if (error) {
       toast({
         title: "Ошибка",
         description: "Не удалось отправить сообщение. Попробуйте ещё раз.",
         variant: "destructive",
       });
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      toast({
+        title: "Сообщение отправлено!",
+        description: "Галина свяжется с вами в ближайшее время",
+      });
+      setFormData({ name: "", email: "", message: "" });
     }
+
+    setIsSubmitting(false);
   };
 
   return (
