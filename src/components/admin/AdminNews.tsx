@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, Trash2, Eye, EyeOff, Clock } from "lucide-react";
 
@@ -138,11 +138,9 @@ const AdminNews = () => {
         
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">Содержание</label>
-          <Textarea
-            value={form.content}
-            onChange={(e) => setForm({ ...form, content: e.target.value })}
-            rows={6}
-            placeholder="Текст новости..."
+          <RichTextEditor
+            content={form.content}
+            onChange={(html) => setForm({ ...form, content: html })}
           />
         </div>
 
