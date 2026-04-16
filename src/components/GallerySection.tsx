@@ -120,12 +120,19 @@ const GallerySection = () => {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="overflow-hidden rounded-2xl shadow-card group"
               >
-                <img
-                  src={img.image_url}
-                  alt={img.title || "Нейрографика"}
-                  className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
+                <div className="relative">
+                  <img
+                    src={img.image_url}
+                    alt={img.title || "Нейрографика"}
+                    className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  {img.title && (
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 pt-8">
+                      <p className="text-white font-heading text-sm font-medium">{img.title}</p>
+                    </div>
+                  )}
+                </div>
               </motion.div>
             ))}
           </div>
