@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Calendar, ArrowRight } from "lucide-react";
+import { Calendar } from "lucide-react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 type NewsItem = {
   id: string;
   title: string;
+  slug: string;
   excerpt: string | null;
   content: string;
   published_at: string;
@@ -18,7 +20,7 @@ const NewsSection = () => {
     const fetchNews = async () => {
       const { data } = await supabase
         .from("news")
-        .select("id, title, excerpt, content, published_at")
+        .select("id, title, slug, excerpt, content, published_at")
         .eq("published", true)
         .lte("published_at", new Date().toISOString())
         .order("published_at", { ascending: false })
@@ -50,39 +52,37 @@ const NewsSection = () => {
 
         <div className="grid md:grid-cols-2 gap-6">
           {news.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-card rounded-2xl border border-border p-6 hover:border-primary/30 transition-colors"
-            >
-              <div className="flex items-center gap-2 text-primary mb-3">
-                <Calendar size={16} />
-                <time className="text-sm font-body font-medium">
-                  {new Date(item.published_at).toLocaleDateString("ru", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </time>
-              </div>
-              <h3 className="font-heading text-lg font-semibold text-foreground mb-2">
-                {item.title}
-              </h3>
-              {item.excerpt && (
-                <p className="text-muted-foreground font-body text-sm leading-relaxed mb-3">
-                  {item.excerpt}
-                </p>
-              )}
-              {item.content && (
-                <div
-                  className="text-muted-foreground font-body text-sm leading-relaxed [&_a]:!text-blue-500 [&_a]:!underline"
-                  dangerouslySetInnerHTML={{ __html: item.content }}
-                />
-              )}
-            </motion.div>
+            <Link key={item.id} to={`/news/${item.slug}`}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-card rounded-2xl border border-border p-6 hover:border-primary/30 transition-colors"
+              >
+                <div className="flex items-center gap-2 text-primary mb-3">
+                  <Calendar size={16} />
+                  <time className="text-sm font-body font-medium">
+                    {new Date(item.published_at).toLocaleDateString("ru", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </time>
+                </div>
+                <h3 className="font-heading text-lg font-semibold text-foreground mb-2">
+                  {item.title}
+                </h3>
+                {item.excerpt && (
+                  <p className="text-muted-foreground font-body text-sm leading-relaxed mb-3">
+                    {item.excerpt}
+                  </p>
+                )}
+                <span className="text-primary text-sm font-medium hover:underline">
+                  Читать подробнее →
+                </span>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>

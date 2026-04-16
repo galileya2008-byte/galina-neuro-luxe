@@ -8,6 +8,7 @@ import Admin from "./pages/Admin.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ArticlePage from "./pages/ArticlePage.tsx";
+import NewsPage from "./pages/NewsPage.tsx";
 import GalleryPage from "./pages/GalleryPage.tsx";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/articles/:slug" element={<ArticlePage />} />
+          <Route path="/news/:slug" element={<NewsPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin-login" element={<AdminLogin />} />
