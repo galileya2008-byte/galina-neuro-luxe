@@ -150,7 +150,7 @@ const ArticlePage = () => {
           className="prose prose-lg max-w-none font-body
             prose-headings:font-heading prose-headings:text-foreground
             prose-p:text-foreground/85 prose-p:leading-relaxed
-            prose-a:text-blue-500 prose-a:underline hover:prose-a:text-blue-600
+            [&_a]:!text-blue-500 [&_a]:!underline [&_a:hover]:!text-blue-600
             prose-img:rounded-xl prose-img:mx-auto
             prose-blockquote:border-primary/50 prose-blockquote:text-muted-foreground
             prose-strong:text-foreground prose-li:text-foreground/85"

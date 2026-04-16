@@ -58,10 +58,13 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border text-center">
+        <div className="mt-12 pt-8 border-t border-border text-center flex flex-col items-center gap-2">
           <p className="text-muted-foreground font-body text-xs">
             © {new Date().getFullYear()} Галина Оноприенко. Все права защищены.
           </p>
+          <a href="/admin-login" className="text-muted-foreground/50 font-body text-[10px] hover:text-muted-foreground transition-colors">
+            Вход для админа
+          </a>
         </div>
       </div>
     </footer>
