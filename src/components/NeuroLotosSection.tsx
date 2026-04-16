@@ -68,7 +68,7 @@ const NeuroLotosSection = () => {
   }, [isRevealing, usedIndices, selectedMessage]);
 
   const petalCount = 8;
-  const radius = 100;
+  const radius = 110;
 
   return (
     <section className="py-24 px-6 bg-gradient-to-b from-background to-card">
@@ -96,7 +96,7 @@ const NeuroLotosSection = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative w-[300px] h-[300px] mx-auto mb-10"
+          className="relative w-[340px] h-[340px] mx-auto mb-10"
         >
           {/* Center circle */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center z-10 shadow-lg">
@@ -114,15 +114,16 @@ const NeuroLotosSection = () => {
             return (
               <motion.button
                 key={i}
-                className="absolute w-16 h-16 rounded-full cursor-pointer border-2 border-white/30 shadow-md hover:shadow-xl transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="absolute w-20 h-20 rounded-full cursor-pointer border-2 border-white/40 shadow-lg hover:shadow-2xl transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 style={{
-                  top: `calc(50% + ${y}px - 32px)`,
-                  left: `calc(50% + ${x}px - 32px)`,
-                  background: `linear-gradient(135deg, ${color}, ${color}dd)`,
+                  top: `calc(50% + ${y}px - 40px)`,
+                  left: `calc(50% + ${x}px - 40px)`,
+                  background: `radial-gradient(circle at 35% 35%, ${color}ee, ${color}99)`,
+                  boxShadow: `0 4px 20px ${color}66, inset 0 1px 2px rgba(255,255,255,0.3)`,
                 }}
-                whileHover={{ scale: 1.2, rotate: 15 }}
+                whileHover={{ scale: 1.25, rotate: 15 }}
                 whileTap={{ scale: 0.9 }}
-                animate={isRevealing ? { scale: [1, 1.1, 1], opacity: [1, 0.7, 1] } : {}}
+                animate={isRevealing ? { scale: [1, 1.15, 1], opacity: [1, 0.6, 1] } : {}}
                 transition={{ duration: 0.3 }}
                 onClick={() => handlePetalClick(i)}
                 aria-label={`Лепесток ${i + 1}`}
