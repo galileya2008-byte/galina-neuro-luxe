@@ -51,12 +51,22 @@ const GalleryPage = () => {
               className="overflow-hidden rounded-xl shadow-card cursor-pointer group"
               onClick={() => setSelected(img)}
             >
-              <img
-                src={img.image_url}
-                alt={img.title || "Нейрографика"}
-                className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500"
-                loading="lazy"
-              />
+              <div className="relative">
+                <img
+                  src={img.image_url}
+                  alt={img.title || "Нейрографика"}
+                  className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                {img.title && (
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 pt-8">
+                    <p className="text-white font-heading text-sm font-medium leading-snug">{img.title}</p>
+                    {img.description && (
+                      <p className="text-white/70 font-body text-xs mt-0.5 line-clamp-1">{img.description}</p>
+                    )}
+                  </div>
+                )}
+              </div>
             </motion.div>
           ))}
         </div>
@@ -80,12 +90,19 @@ const GalleryPage = () => {
           >
             <X size={28} />
           </button>
-          <img
-            src={selected.image_url}
-            alt={selected.title || "Нейрографика"}
-            className="max-w-full max-h-[85vh] rounded-xl object-contain"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <div className="max-w-4xl" onClick={(e) => e.stopPropagation()}>
+            <img
+              src={selected.image_url}
+              alt={selected.title || "Нейрографика"}
+              className="max-w-full max-h-[80vh] rounded-xl object-contain mx-auto"
+            />
+            {(selected.title || selected.description) && (
+              <div className="text-center mt-4">
+                {selected.title && <p className="text-white font-heading text-lg">{selected.title}</p>}
+                {selected.description && <p className="text-white/70 font-body text-sm mt-1">{selected.description}</p>}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
