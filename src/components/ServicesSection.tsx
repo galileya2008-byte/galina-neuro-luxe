@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Sparkles, Package, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const services = [
   {
@@ -72,9 +73,12 @@ const ServicesSection = () => {
               <p className="font-heading text-3xl font-bold text-primary">
                 {service.price}
               </p>
-              <p className="text-muted-foreground font-body text-xs mt-1">
+              <p className="text-muted-foreground font-body text-xs mt-1 mb-6">
                 {service.note}
               </p>
+              <Button className="w-full gradient-primary text-primary-foreground font-body font-medium">
+                Записаться
+              </Button>
             </motion.div>
           ))}
         </div>
@@ -102,6 +106,9 @@ const ServicesSection = () => {
             <p className="font-heading text-3xl font-bold text-accent">
               2 500 ₽
             </p>
+            <Button variant="outline" className="mt-4 w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground font-body font-medium">
+              Записаться
+            </Button>
           </div>
         </motion.div>
       </div>
