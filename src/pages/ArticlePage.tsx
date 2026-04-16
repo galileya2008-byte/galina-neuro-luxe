@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft } from "lucide-react";
+import NewsSidebar from "@/components/NewsSidebar";
 
 type Article = {
   id: string;
@@ -124,39 +125,45 @@ const ArticlePage = () => {
         </Link>
       </nav>
 
-      <article className="container mx-auto max-w-3xl px-6 pb-20">
-        <header className="mb-8">
-          <time className="text-sm text-muted-foreground font-body" dateTime={article.created_at}>
-            {new Date(article.created_at).toLocaleDateString("ru", { day: "numeric", month: "long", year: "numeric" })}
-          </time>
-          <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mt-3 leading-tight">
-            {article.title}
-          </h1>
-          {article.excerpt && (
-            <p className="text-lg text-muted-foreground mt-4 font-body leading-relaxed">{article.excerpt}</p>
+      <div className="container mx-auto max-w-6xl px-6 pb-20 flex flex-col lg:flex-row gap-10">
+        <article className="flex-1 max-w-3xl">
+          <header className="mb-8">
+            <time className="text-sm text-muted-foreground font-body" dateTime={article.created_at}>
+              {new Date(article.created_at).toLocaleDateString("ru", { day: "numeric", month: "long", year: "numeric" })}
+            </time>
+            <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mt-3 leading-tight">
+              {article.title}
+            </h1>
+            {article.excerpt && (
+              <p className="text-lg text-muted-foreground mt-4 font-body leading-relaxed">{article.excerpt}</p>
+            )}
+          </header>
+
+          {article.cover_image_url && (
+            <img
+              src={article.cover_image_url}
+              alt={article.title}
+              className="w-full rounded-2xl mb-10 object-cover max-h-[500px]"
+              loading="lazy"
+            />
           )}
-        </header>
 
-        {article.cover_image_url && (
-          <img
-            src={article.cover_image_url}
-            alt={article.title}
-            className="w-full rounded-2xl mb-10 object-cover max-h-[500px]"
-            loading="lazy"
+          <div
+            className="prose prose-lg max-w-none font-body
+              prose-headings:font-heading prose-headings:text-foreground
+              prose-p:text-foreground/85 prose-p:leading-relaxed
+              [&_a]:!text-blue-500 [&_a]:!underline [&_a:hover]:!text-blue-600
+              prose-img:rounded-xl prose-img:mx-auto
+              prose-blockquote:border-primary/50 prose-blockquote:text-muted-foreground
+              prose-strong:text-foreground prose-li:text-foreground/85"
+            dangerouslySetInnerHTML={{ __html: article.content }}
           />
-        )}
+        </article>
 
-        <div
-          className="prose prose-lg max-w-none font-body
-            prose-headings:font-heading prose-headings:text-foreground
-            prose-p:text-foreground/85 prose-p:leading-relaxed
-            [&_a]:!text-blue-500 [&_a]:!underline [&_a:hover]:!text-blue-600
-            prose-img:rounded-xl prose-img:mx-auto
-            prose-blockquote:border-primary/50 prose-blockquote:text-muted-foreground
-            prose-strong:text-foreground prose-li:text-foreground/85"
-          dangerouslySetInnerHTML={{ __html: article.content }}
-        />
-      </article>
+        <aside className="lg:w-72 shrink-0">
+          <NewsSidebar />
+        </aside>
+      </div>
 
       <footer className="border-t border-border py-8 text-center">
         <Link to="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
