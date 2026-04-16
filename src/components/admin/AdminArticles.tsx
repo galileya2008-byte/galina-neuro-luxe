@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Edit, Trash2, Eye, EyeOff } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, EyeOff, ImagePlus } from "lucide-react";
+import RichTextEditor from "./RichTextEditor";
 
 type Article = {
   id: string;
@@ -12,6 +12,7 @@ type Article = {
   slug: string;
   content: string;
   excerpt: string | null;
+  cover_image_url: string | null;
   published: boolean;
   created_at: string;
 };
@@ -20,7 +21,7 @@ const AdminArticles = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [editing, setEditing] = useState<Article | null>(null);
   const [isNew, setIsNew] = useState(false);
-  const [form, setForm] = useState({ title: "", slug: "", content: "", excerpt: "", published: false });
+  const [form, setForm] = useState({ title: "", slug: "", content: "", excerpt: "", cover_image_url: "", published: false });
   const { toast } = useToast();
 
   useEffect(() => { fetchArticles(); }, []);
@@ -39,7 +40,7 @@ const AdminArticles = () => {
   const startNew = () => {
     setIsNew(true);
     setEditing(null);
-    setForm({ title: "", slug: "", content: "", excerpt: "", published: false });
+    setForm({ title: "", slug: "", content: "", excerpt: "", cover_image_url: "", published: false });
   };
 
   const startEdit = (article: Article) => {
@@ -50,8 +51,33 @@ const AdminArticles = () => {
       slug: article.slug,
       content: article.content,
       excerpt: article.excerpt || "",
+      cover_image_url: article.cover_image_url || "",
       published: article.published,
     });
+  };
+
+  const uploadCover = async () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = async () => {
+      const file = input.files?.[0];
+      if (!file) return;
+
+      const ext = file.name.split(".").pop();
+      const fileName = `covers/${Date.now()}.${ext}`;
+
+      const { error } = await supabase.storage.from("gallery").upload(fileName, file);
+      if (error) {
+        toast({ title: "Ошибка загрузки", description: error.message, variant: "destructive" });
+        return;
+      }
+
+      const { data: urlData } = supabase.storage.from("gallery").getPublicUrl(fileName);
+      setForm(f => ({ ...f, cover_image_url: urlData.publicUrl }));
+      toast({ title: "Обложка загружена" });
+    };
+    input.click();
   };
 
   const save = async () => {
@@ -61,7 +87,14 @@ const AdminArticles = () => {
     }
 
     const slug = form.slug || generateSlug(form.title);
-    const payload = { ...form, slug };
+    const payload = {
+      title: form.title,
+      slug,
+      content: form.content,
+      excerpt: form.excerpt || null,
+      cover_image_url: form.cover_image_url || null,
+      published: form.published,
+    };
 
     if (isNew) {
       const { error } = await supabase.from("articles").insert(payload);
@@ -103,8 +136,25 @@ const AdminArticles = () => {
         </div>
         <Input placeholder="Заголовок" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
         <Input placeholder="Slug (URL)" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
-        <Input placeholder="Краткое описание" value={form.excerpt} onChange={(e) => setForm({ ...form, excerpt: e.target.value })} />
-        <Textarea placeholder="Содержание статьи" value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} rows={12} />
+        <Input placeholder="Краткое описание (для SEO)" value={form.excerpt} onChange={(e) => setForm({ ...form, excerpt: e.target.value })} />
+        
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-foreground">Обложка статьи</label>
+          <div className="flex items-center gap-3">
+            {form.cover_image_url && (
+              <img src={form.cover_image_url} alt="Обложка" className="h-20 w-32 object-cover rounded-lg" />
+            )}
+            <Button type="button" variant="outline" onClick={uploadCover}>
+              <ImagePlus size={16} /> {form.cover_image_url ? "Заменить" : "Загрузить обложку"}
+            </Button>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-foreground">Содержание</label>
+          <RichTextEditor content={form.content} onChange={(html) => setForm(f => ({ ...f, content: html }))} />
+        </div>
+
         <div className="flex items-center gap-4">
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" checked={form.published} onChange={(e) => setForm({ ...form, published: e.target.checked })} />
@@ -127,11 +177,16 @@ const AdminArticles = () => {
       <div className="space-y-3">
         {articles.map((article) => (
           <div key={article.id} className="flex items-center justify-between bg-card border border-border rounded-xl p-4">
-            <div>
-              <h3 className="font-medium text-foreground">{article.title}</h3>
-              <p className="text-xs text-muted-foreground">
-                {article.published ? "Опубликовано" : "Черновик"} • {new Date(article.created_at).toLocaleDateString("ru")}
-              </p>
+            <div className="flex items-center gap-3">
+              {article.cover_image_url && (
+                <img src={article.cover_image_url} alt="" className="h-12 w-20 object-cover rounded-lg" />
+              )}
+              <div>
+                <h3 className="font-medium text-foreground">{article.title}</h3>
+                <p className="text-xs text-muted-foreground">
+                  {article.published ? "Опубликовано" : "Черновик"} • {new Date(article.created_at).toLocaleDateString("ru")}
+                </p>
+              </div>
             </div>
             <div className="flex gap-2">
               <Button variant="ghost" size="icon" onClick={() => togglePublish(article)}>
