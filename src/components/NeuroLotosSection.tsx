@@ -155,6 +155,30 @@ const NeuroLotosSection = () => {
             Нажмите на любой лепесток, чтобы получить послание
           </motion.p>
         )}
+
+        {/* CTA block */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-14 max-w-lg mx-auto bg-card/80 backdrop-blur-sm rounded-2xl p-8 border border-border shadow-card"
+        >
+          <p className="font-heading text-xl md:text-2xl font-light text-foreground mb-3">
+            Хочешь получить изменения <span className="italic text-primary">прямо сейчас</span>?
+          </p>
+          <p className="font-body text-muted-foreground mb-6">
+            Поработай с этой моделью НейроЛотоса Посланий — видеоурок с пошаговым алгоритмом
+          </p>
+          <Button
+            size="lg"
+            className="text-base px-8"
+            onClick={() => window.open('https://getcourse.ru', '_blank')}
+          >
+            <Sparkles size={18} />
+            Получить урок — 970 ₽
+          </Button>
+        </motion.div>
       </div>
     </section>
   );
