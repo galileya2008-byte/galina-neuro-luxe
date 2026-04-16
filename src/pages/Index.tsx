@@ -4,6 +4,7 @@ import AboutSection from "@/components/AboutSection";
 import PiskarevSection from "@/components/PiskarevSection";
 import ServicesSection from "@/components/ServicesSection";
 import GallerySection from "@/components/GallerySection";
+import NewsSection from "@/components/NewsSection";
 import ArticlesSection from "@/components/ArticlesSection";
 import ContactForm from "@/components/ContactForm";
 import NeuroLotosSection from "@/components/NeuroLotosSection";
@@ -18,6 +19,7 @@ const Index = () => {
       <PiskarevSection />
       <ServicesSection />
       <GallerySection />
+      <NewsSection />
       <NeuroLotosSection />
       <ArticlesSection />
       <ContactForm />
