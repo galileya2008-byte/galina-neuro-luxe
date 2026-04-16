@@ -7,6 +7,7 @@ type NewsItem = {
   id: string;
   title: string;
   excerpt: string | null;
+  content: string;
   published_at: string;
 };
 
@@ -17,7 +18,7 @@ const NewsSection = () => {
     const fetchNews = async () => {
       const { data } = await supabase
         .from("news")
-        .select("id, title, excerpt, published_at")
+        .select("id, title, excerpt, content, published_at")
         .eq("published", true)
         .lte("published_at", new Date().toISOString())
         .order("published_at", { ascending: false })
@@ -71,9 +72,15 @@ const NewsSection = () => {
                 {item.title}
               </h3>
               {item.excerpt && (
-                <p className="text-muted-foreground font-body text-sm leading-relaxed">
+                <p className="text-muted-foreground font-body text-sm leading-relaxed mb-3">
                   {item.excerpt}
                 </p>
+              )}
+              {item.content && (
+                <div
+                  className="text-muted-foreground font-body text-sm leading-relaxed [&_a]:!text-blue-500 [&_a]:!underline"
+                  dangerouslySetInnerHTML={{ __html: item.content }}
+                />
               )}
             </motion.div>
           ))}
