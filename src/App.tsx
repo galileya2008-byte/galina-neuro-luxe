@@ -11,6 +11,7 @@ import ArticlePage from "./pages/ArticlePage.tsx";
 import NewsPage from "./pages/NewsPage.tsx";
 import GalleryPage from "./pages/GalleryPage.tsx";
 import PageTracker from "./hooks/usePageTracking.tsx";
+import YandexMetrika from "./components/YandexMetrika.tsx";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <PageTracker />
+        <YandexMetrika />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/articles/:slug" element={<ArticlePage />} />
