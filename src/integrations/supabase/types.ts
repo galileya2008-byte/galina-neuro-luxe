@@ -61,6 +61,7 @@ export type Database = {
           message: string
           name: string
           read: boolean
+          status: Database["public"]["Enums"]["message_status"]
         }
         Insert: {
           created_at?: string
@@ -69,6 +70,7 @@ export type Database = {
           message: string
           name: string
           read?: boolean
+          status?: Database["public"]["Enums"]["message_status"]
         }
         Update: {
           created_at?: string
@@ -77,6 +79,7 @@ export type Database = {
           message?: string
           name?: string
           read?: boolean
+          status?: Database["public"]["Enums"]["message_status"]
         }
         Relationships: []
       }
@@ -146,6 +149,33 @@ export type Database = {
         }
         Relationships: []
       }
+      page_views: {
+        Row: {
+          created_at: string
+          id: string
+          path: string
+          referrer: string | null
+          session_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          path: string
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          path?: string
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -179,6 +209,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      message_status: "new" | "in_progress" | "closed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -307,6 +338,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      message_status: ["new", "in_progress", "closed"],
     },
   },
 } as const

@@ -8,6 +8,7 @@ import AdminArticles from "@/components/admin/AdminArticles";
 import AdminNews from "@/components/admin/AdminNews";
 import AdminGallery from "@/components/admin/AdminGallery";
 import AdminMessages from "@/components/admin/AdminMessages";
+import AdminStats from "@/components/admin/AdminStats";
 import { LogOut, Home } from "lucide-react";
 
 const Admin = () => {
@@ -73,14 +74,21 @@ const Admin = () => {
       </header>
 
       <main className="container mx-auto max-w-5xl px-6 py-8">
-        <Tabs defaultValue="articles">
-          <TabsList className="mb-6">
+        <Tabs defaultValue="stats">
+          <TabsList className="mb-6 flex-wrap h-auto">
+            <TabsTrigger value="stats">Статистика</TabsTrigger>
+            <TabsTrigger value="messages">Заявки</TabsTrigger>
             <TabsTrigger value="articles">Статьи</TabsTrigger>
             <TabsTrigger value="news">Новости</TabsTrigger>
             <TabsTrigger value="gallery">Галерея</TabsTrigger>
-            <TabsTrigger value="messages">Сообщения</TabsTrigger>
           </TabsList>
 
+          <TabsContent value="stats">
+            <AdminStats />
+          </TabsContent>
+          <TabsContent value="messages">
+            <AdminMessages />
+          </TabsContent>
           <TabsContent value="articles">
             <AdminArticles />
           </TabsContent>
@@ -89,9 +97,6 @@ const Admin = () => {
           </TabsContent>
           <TabsContent value="gallery">
             <AdminGallery />
-          </TabsContent>
-          <TabsContent value="messages">
-            <AdminMessages />
           </TabsContent>
         </Tabs>
       </main>
