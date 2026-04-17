@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound.tsx";
 import ArticlePage from "./pages/ArticlePage.tsx";
 import NewsPage from "./pages/NewsPage.tsx";
 import GalleryPage from "./pages/GalleryPage.tsx";
+import PageTracker from "./hooks/usePageTracking.tsx";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <PageTracker />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/articles/:slug" element={<ArticlePage />} />
