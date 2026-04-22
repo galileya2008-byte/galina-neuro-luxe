@@ -5,9 +5,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Eye, Users, FileText, Newspaper, Image as ImageIcon, MessageSquare, Globe } from "lucide-react";
+import { Eye, Users, FileText, Newspaper, Image as ImageIcon, MessageSquare, Globe, TrendingUp } from "lucide-react";
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+} from "recharts";
 
 type SourceRow = { label: string; count: number };
+type DailyRow = { date: string; label: string; views: number; visitors: number };
 
 type Stats = {
   total: number;
@@ -17,6 +27,7 @@ type Stats = {
   uniqueSessions: number;
   topPaths: { path: string; count: number }[];
   sources: SourceRow[];
+  daily: DailyRow[];
   articles: number;
   news: number;
   gallery: number;
