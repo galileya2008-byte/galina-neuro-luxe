@@ -5,9 +5,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Eye, Users, FileText, Newspaper, Image as ImageIcon, MessageSquare, Globe } from "lucide-react";
+import { Eye, Users, FileText, Newspaper, Image as ImageIcon, MessageSquare, Globe, TrendingUp } from "lucide-react";
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+} from "recharts";
 
 type SourceRow = { label: string; count: number };
+type DailyRow = { date: string; label: string; views: number; visitors: number };
 
 type Stats = {
   total: number;
@@ -17,6 +27,7 @@ type Stats = {
   uniqueSessions: number;
   topPaths: { path: string; count: number }[];
   sources: SourceRow[];
+  daily: DailyRow[];
   articles: number;
   news: number;
   gallery: number;
@@ -124,7 +135,7 @@ const AdminStats = () => {
       supabase.from("page_views").select("*", { count: "exact", head: true }).gte("created_at", week),
       supabase.from("page_views").select("*", { count: "exact", head: true }).gte("created_at", month),
       supabase.from("page_views").select("path").gte("created_at", month).limit(5000),
-      supabase.from("page_views").select("session_id").gte("created_at", month).limit(5000),
+      supabase.from("page_views").select("session_id, created_at").gte("created_at", month).limit(5000),
       supabase.from("page_views").select("referrer").gte("created_at", month).limit(5000),
       supabase.from("articles").select("*", { count: "exact", head: true }),
       supabase.from("news").select("*", { count: "exact", head: true }),
@@ -154,6 +165,29 @@ const AdminStats = () => {
 
     const uniqueSessions = new Set((sessionsRes.data ?? []).map((r: any) => r.session_id).filter(Boolean)).size;
 
+    // Daily series for last 30 days
+    const dayKey = (d: Date) =>
+      `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const dayLabel = (d: Date) =>
+      `${String(d.getDate()).padStart(2, "0")}.${String(d.getMonth() + 1).padStart(2, "0")}`;
+
+    const buckets: Record<string, { views: number; sessions: Set<string> }> = {};
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+      buckets[dayKey(d)] = { views: 0, sessions: new Set() };
+    }
+    (sessionsRes.data ?? []).forEach((r: any) => {
+      const d = new Date(r.created_at);
+      const key = dayKey(d);
+      if (!buckets[key]) return;
+      buckets[key].views += 1;
+      if (r.session_id) buckets[key].sessions.add(r.session_id);
+    });
+    const daily: DailyRow[] = Object.entries(buckets).map(([date, b]) => {
+      const d = new Date(date);
+      return { date, label: dayLabel(d), views: b.views, visitors: b.sessions.size };
+    });
+
     setStats({
       total: totalRes.count ?? 0,
       today: todayRes.count ?? 0,
@@ -162,6 +196,7 @@ const AdminStats = () => {
       uniqueSessions,
       topPaths,
       sources,
+      daily,
       articles: articlesRes.count ?? 0,
       news: newsRes.count ?? 0,
       gallery: galleryRes.count ?? 0,
@@ -212,6 +247,76 @@ const AdminStats = () => {
           <StatCard icon={Users} label="Уник. сессий (30д)" value={stats.uniqueSessions} />
         </div>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base flex items-center gap-2">
+            <TrendingUp size={18} className="text-primary" />
+            Динамика посещений (30 дней)
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={stats.daily} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="viewsGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.4} />
+                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="visitorsGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity={0.4} />
+                    <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis
+                  dataKey="label"
+                  stroke="hsl(var(--muted-foreground))"
+                  fontSize={11}
+                  interval="preserveStartEnd"
+                  minTickGap={20}
+                />
+                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} allowDecimals={false} />
+                <Tooltip
+                  contentStyle={{
+                    background: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: 8,
+                    fontSize: 12,
+                  }}
+                  labelStyle={{ color: "hsl(var(--foreground))" }}
+                  formatter={(v: number, name) => [v, name === "views" ? "Просмотры" : "Посетители"]}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="views"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={2}
+                  fill="url(#viewsGrad)"
+                  name="views"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="visitors"
+                  stroke="hsl(var(--accent))"
+                  strokeWidth={2}
+                  fill="url(#visitorsGrad)"
+                  name="visitors"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="flex gap-4 text-xs text-muted-foreground mt-3">
+            <span className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-sm bg-primary" /> Просмотры страниц
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-sm bg-accent" /> Уникальные посетители
+            </span>
+          </div>
+        </CardContent>
+      </Card>
 
       <div>
         <h2 className="font-heading text-xl mb-4">Контент</h2>
