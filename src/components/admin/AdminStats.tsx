@@ -135,7 +135,7 @@ const AdminStats = () => {
       supabase.from("page_views").select("*", { count: "exact", head: true }).gte("created_at", week),
       supabase.from("page_views").select("*", { count: "exact", head: true }).gte("created_at", month),
       supabase.from("page_views").select("path").gte("created_at", month).limit(5000),
-      supabase.from("page_views").select("session_id").gte("created_at", month).limit(5000),
+      supabase.from("page_views").select("session_id, created_at").gte("created_at", month).limit(5000),
       supabase.from("page_views").select("referrer").gte("created_at", month).limit(5000),
       supabase.from("articles").select("*", { count: "exact", head: true }),
       supabase.from("news").select("*", { count: "exact", head: true }),
