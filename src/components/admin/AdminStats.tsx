@@ -248,6 +248,76 @@ const AdminStats = () => {
         </div>
       </div>
 
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base flex items-center gap-2">
+            <TrendingUp size={18} className="text-primary" />
+            Динамика посещений (30 дней)
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={stats.daily} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="viewsGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.4} />
+                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="visitorsGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity={0.4} />
+                    <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis
+                  dataKey="label"
+                  stroke="hsl(var(--muted-foreground))"
+                  fontSize={11}
+                  interval="preserveStartEnd"
+                  minTickGap={20}
+                />
+                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} allowDecimals={false} />
+                <Tooltip
+                  contentStyle={{
+                    background: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: 8,
+                    fontSize: 12,
+                  }}
+                  labelStyle={{ color: "hsl(var(--foreground))" }}
+                  formatter={(v: number, name) => [v, name === "views" ? "Просмотры" : "Посетители"]}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="views"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={2}
+                  fill="url(#viewsGrad)"
+                  name="views"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="visitors"
+                  stroke="hsl(var(--accent))"
+                  strokeWidth={2}
+                  fill="url(#visitorsGrad)"
+                  name="visitors"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="flex gap-4 text-xs text-muted-foreground mt-3">
+            <span className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-sm bg-primary" /> Просмотры страниц
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-sm bg-accent" /> Уникальные посетители
+            </span>
+          </div>
+        </CardContent>
+      </Card>
+
       <div>
         <h2 className="font-heading text-xl mb-4">Контент</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
