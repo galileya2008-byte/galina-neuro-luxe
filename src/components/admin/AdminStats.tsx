@@ -165,6 +165,29 @@ const AdminStats = () => {
 
     const uniqueSessions = new Set((sessionsRes.data ?? []).map((r: any) => r.session_id).filter(Boolean)).size;
 
+    // Daily series for last 30 days
+    const dayKey = (d: Date) =>
+      `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const dayLabel = (d: Date) =>
+      `${String(d.getDate()).padStart(2, "0")}.${String(d.getMonth() + 1).padStart(2, "0")}`;
+
+    const buckets: Record<string, { views: number; sessions: Set<string> }> = {};
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+      buckets[dayKey(d)] = { views: 0, sessions: new Set() };
+    }
+    (sessionsRes.data ?? []).forEach((r: any) => {
+      const d = new Date(r.created_at);
+      const key = dayKey(d);
+      if (!buckets[key]) return;
+      buckets[key].views += 1;
+      if (r.session_id) buckets[key].sessions.add(r.session_id);
+    });
+    const daily: DailyRow[] = Object.entries(buckets).map(([date, b]) => {
+      const d = new Date(date);
+      return { date, label: dayLabel(d), views: b.views, visitors: b.sessions.size };
+    });
+
     setStats({
       total: totalRes.count ?? 0,
       today: todayRes.count ?? 0,
@@ -173,6 +196,7 @@ const AdminStats = () => {
       uniqueSessions,
       topPaths,
       sources,
+      daily,
       articles: articlesRes.count ?? 0,
       news: newsRes.count ?? 0,
       gallery: galleryRes.count ?? 0,
