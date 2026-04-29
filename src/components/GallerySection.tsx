@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 
@@ -9,6 +9,7 @@ type GalleryImage = {
   image_url: string;
   title: string | null;
   description: string | null;
+  vk_album_url: string | null;
 };
 
 const GallerySection = () => {
@@ -20,7 +21,7 @@ const GallerySection = () => {
     const fetch = async () => {
       const { data } = await supabase
         .from("gallery_images")
-        .select("id, image_url, title, description")
+        .select("id, image_url, title, description, vk_album_url")
         .order("sort_order", { ascending: true })
         .limit(12);
       if (data) setImages(data);
@@ -127,9 +128,22 @@ const GallerySection = () => {
                     className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
-                  {img.title && (
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 pt-8">
-                      <p className="text-white font-heading text-sm font-medium">{img.title}</p>
+                  {(img.title || img.vk_album_url) && (
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 pt-8">
+                      {img.title && (
+                        <p className="text-white font-heading text-sm font-medium">{img.title}</p>
+                      )}
+                      {img.vk_album_url && (
+                        <a
+                          href={img.vk_album_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-1 mt-1 text-xs text-white/90 hover:text-white font-body underline-offset-2 hover:underline"
+                        >
+                          <ExternalLink size={12} /> Альбом ВКонтакте
+                        </a>
+                      )}
                     </div>
                   )}
                 </div>

@@ -91,6 +91,7 @@ export type Database = {
           image_url: string
           sort_order: number
           title: string | null
+          vk_album_url: string | null
         }
         Insert: {
           created_at?: string
@@ -99,6 +100,7 @@ export type Database = {
           image_url: string
           sort_order?: number
           title?: string | null
+          vk_album_url?: string | null
         }
         Update: {
           created_at?: string
@@ -107,6 +109,7 @@ export type Database = {
           image_url?: string
           sort_order?: number
           title?: string | null
+          vk_album_url?: string | null
         }
         Relationships: []
       }

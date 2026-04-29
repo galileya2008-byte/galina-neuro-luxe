@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const PiskarevSection = () => {
   return (
-    <section className="py-24 px-6 bg-muted/30">
+    <section id="author" className="py-24 px-6 bg-muted/30">
       <div className="container mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

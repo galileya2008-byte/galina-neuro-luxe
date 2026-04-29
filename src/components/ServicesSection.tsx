@@ -29,7 +29,7 @@ const services = [
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="py-24 px-6 bg-muted/50">
+    <section id="courses" className="py-24 px-6 bg-muted/50">
       <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -39,10 +39,10 @@ const ServicesSection = () => {
           className="text-center mb-16"
         >
           <p className="font-body text-sm tracking-[0.2em] uppercase text-primary mb-3">
-            Услуги
+            Обучение и работа
           </p>
           <h2 className="font-heading text-4xl md:text-5xl font-light text-foreground">
-            Индивидуальная <span className="italic text-primary">работа</span>
+            Курсы и <span className="italic text-primary">Мастер-классы</span>
           </h2>
         </motion.div>
 
