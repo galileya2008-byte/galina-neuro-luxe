@@ -71,7 +71,7 @@ const NeuroLotosSection = () => {
   const radius = 110;
 
   return (
-    <section className="py-24 px-6 bg-gradient-to-b from-background to-card">
+    <section id="method" className="py-24 px-6 bg-gradient-to-b from-background to-card">
       <div className="container mx-auto max-w-4xl text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -81,13 +81,18 @@ const NeuroLotosSection = () => {
           className="mb-12"
         >
           <p className="font-body text-sm tracking-[0.2em] uppercase text-accent mb-3">
-            Интерактив
+            О методе
           </p>
           <h2 className="font-heading text-4xl md:text-5xl font-light text-foreground mb-4">
-            Нейро<span className="italic text-primary">Лотос</span>
+            Что такое <span className="italic text-primary">НейроГрафика</span>
           </h2>
-          <p className="font-body text-muted-foreground max-w-md mx-auto">
-            Выберите лепесток лотоса и получите своё послание на сегодня
+          <p className="font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-6">
+            НейроГрафика — это художественный метод трансформации реальности через рисование.
+            Соединяя нейронауку, психологию и искусство, она помогает менять мышление,
+            снимать ограничения и находить решения для любых жизненных задач.
+          </p>
+          <p className="font-body text-sm text-muted-foreground italic max-w-md mx-auto">
+            А пока — попробуйте интерактив: выберите лепесток НейроЛотоса и получите послание на сегодня
           </p>
         </motion.div>
 

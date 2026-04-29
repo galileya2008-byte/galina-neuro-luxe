@@ -33,7 +33,7 @@ const NewsSection = () => {
   if (news.length === 0) return null;
 
   return (
-    <section id="news" className="py-24 px-6 bg-background">
+    <section id="life" className="py-24 px-6 bg-background">
       <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -43,10 +43,10 @@ const NewsSection = () => {
           className="text-center mb-16"
         >
           <p className="font-body text-sm tracking-[0.2em] uppercase text-primary mb-3">
-            Анонсы
+            Анонсы и события
           </p>
           <h2 className="font-heading text-4xl md:text-5xl font-light text-foreground">
-            Ближайшие <span className="italic text-primary">мастер-классы</span>
+            Моя жизнь с <span className="italic text-primary">НейроГрафикой</span>
           </h2>
         </motion.div>
 
