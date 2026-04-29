@@ -1,0 +1,1 @@
+ALTER TABLE public.gallery_images ADD COLUMN IF NOT EXISTS vk_album_url TEXT;
