@@ -13,6 +13,9 @@ const DEFAULTS = {
   cta_href: "#courses",
   cta_secondary_label: "Смотреть работы",
   cta_secondary_href: "#gallery",
+  portrait_url: "",
+  portrait_caption_top: "Автор и инструктор",
+  portrait_caption_bottom: "Галина Оноприенко",
 };
 
 const HeroSection = () => {
@@ -99,28 +102,75 @@ const HeroSection = () => {
           </motion.div>
         </div>
 
-        {/* Right: editorial visual card */}
+        {/* Right: premium portrait slot */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
           className="md:col-span-5 relative"
         >
-          <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden glass shadow-elegant animate-float-slow">
-            <img
-              src={heroBg}
-              alt="Нейрографика — пример работы"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
-            <NeuroLines variant="constellation" opacity={0.35} />
+          {/* Soft glow halo behind */}
+          <div className="absolute -inset-6 rounded-[2.5rem] gradient-aurora opacity-25 blur-3xl pointer-events-none" />
+
+          {/* Outer thin frame */}
+          <div className="relative rounded-[2rem] p-[1px] bg-gradient-to-br from-primary/40 via-secondary/30 to-accent/40 shadow-elegant animate-float-slow">
+            <div className="relative aspect-[4/5] rounded-[1.95rem] overflow-hidden glass">
+              {value.portrait_url ? (
+                <img
+                  src={value.portrait_url}
+                  alt={value.portrait_caption_bottom || "Портрет"}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 bg-gradient-to-br from-muted/40 via-background to-muted/30">
+                  <NeuroLines variant="circles" opacity={0.3} />
+                  <div className="relative z-10 w-20 h-20 rounded-full glass flex items-center justify-center mb-5 shadow-soft">
+                    <Sparkles className="w-7 h-7 text-primary" />
+                  </div>
+                  <p className="relative z-10 eyebrow !text-[10px] mb-2">Место для фото</p>
+                  <p className="relative z-10 font-heading italic text-lg text-foreground/80 max-w-[14rem] leading-snug">
+                    Здесь будет ваш портрет — добавьте URL в админке
+                  </p>
+                </div>
+              )}
+
+              {/* Editorial overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-background/55 via-transparent to-transparent pointer-events-none" />
+              <NeuroLines variant="constellation" opacity={0.25} />
+
+              {/* Corner accents */}
+              <span className="absolute top-4 left-4 w-6 h-6 border-t border-l border-primary/60 rounded-tl-md" />
+              <span className="absolute top-4 right-4 w-6 h-6 border-t border-r border-primary/60 rounded-tr-md" />
+              <span className="absolute bottom-4 left-4 w-6 h-6 border-b border-l border-primary/60 rounded-bl-md" />
+              <span className="absolute bottom-4 right-4 w-6 h-6 border-b border-r border-primary/60 rounded-br-md" />
+            </div>
           </div>
 
-          {/* Floating chip */}
-          <div className="hidden md:block absolute -bottom-6 -left-6 glass rounded-2xl px-5 py-3 shadow-card">
-            <p className="font-display text-xs text-muted-foreground tracking-widest uppercase">Метод</p>
-            <p className="font-heading text-xl italic text-primary">НейроГрафика</p>
-          </div>
+          {/* Floating caption chip */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.9 }}
+            className="hidden md:block absolute -bottom-6 -left-6 glass rounded-2xl px-5 py-3 shadow-card"
+          >
+            <p className="font-display text-[10px] text-muted-foreground tracking-[0.3em] uppercase">
+              {value.portrait_caption_top}
+            </p>
+            <p className="font-heading text-xl italic text-gradient">
+              {value.portrait_caption_bottom}
+            </p>
+          </motion.div>
+
+          {/* Floating numeric chip top-right */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 1.1 }}
+            className="hidden md:flex absolute -top-5 -right-5 glass rounded-full w-20 h-20 flex-col items-center justify-center shadow-card"
+          >
+            <span className="font-heading text-2xl text-primary leading-none">7+</span>
+            <span className="font-display text-[9px] tracking-[0.2em] uppercase text-muted-foreground mt-1">лет</span>
+          </motion.div>
         </motion.div>
       </div>
 
