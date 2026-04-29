@@ -13,6 +13,9 @@ const DEFAULTS = {
   cta_href: "#courses",
   cta_secondary_label: "Смотреть работы",
   cta_secondary_href: "#gallery",
+  portrait_url: "",
+  portrait_caption_top: "Автор и инструктор",
+  portrait_caption_bottom: "Галина Оноприенко",
 };
 
 const HeroSection = () => {
