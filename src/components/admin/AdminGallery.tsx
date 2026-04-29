@@ -11,6 +11,7 @@ type GalleryImage = {
   description: string | null;
   image_url: string;
   sort_order: number;
+  vk_album_url: string | null;
 };
 
 const AdminGallery = () => {
@@ -72,6 +73,10 @@ const AdminGallery = () => {
     await supabase.from("gallery_images").update({ title }).eq("id", id);
   };
 
+  const updateVkUrl = async (id: string, vk_album_url: string) => {
+    await supabase.from("gallery_images").update({ vk_album_url: vk_album_url.trim() || null }).eq("id", id);
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -90,12 +95,18 @@ const AdminGallery = () => {
         {images.map((image) => (
           <div key={image.id} className="relative group bg-card border border-border rounded-xl overflow-hidden">
             <img src={image.image_url} alt={image.title || ""} className="w-full h-40 object-cover" />
-            <div className="p-3">
+            <div className="p-3 space-y-2">
               <Input
                 defaultValue={image.title || ""}
                 placeholder="Название"
                 className="text-xs"
                 onBlur={(e) => updateTitle(image.id, e.target.value)}
+              />
+              <Input
+                defaultValue={image.vk_album_url || ""}
+                placeholder="Ссылка на альбом ВК (необязательно)"
+                className="text-xs"
+                onBlur={(e) => updateVkUrl(image.id, e.target.value)}
               />
             </div>
             <Button
