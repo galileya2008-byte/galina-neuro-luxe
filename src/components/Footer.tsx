@@ -1,4 +1,4 @@
-import { Send, ExternalLink, Mail, Instagram } from "lucide-react";
+import { Send, ExternalLink, Mail, Camera } from "lucide-react";
 
 const navLinks = [
   { label: "Обо мне", href: "#about" },
@@ -70,7 +70,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors"
               >
-                <Instagram size={16} />
+                <Camera size={16} />
                 Instagram
               </a>
               <a
