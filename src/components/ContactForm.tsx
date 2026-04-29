@@ -59,7 +59,7 @@ const ContactForm = () => {
   };
 
   return (
-    <section id="contact" className="py-24 px-6">
+    <section id="contacts" className="py-24 px-6">
       <div className="container mx-auto max-w-xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
