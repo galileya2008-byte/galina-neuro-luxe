@@ -32,6 +32,9 @@ const BLOCKS: Block[] = [
       { name: "cta_href", label: "Кнопка — ссылка (например, #courses)", type: "text" },
       { name: "cta_secondary_label", label: "Вторая кнопка — текст (пусто = скрыть)", type: "text" },
       { name: "cta_secondary_href", label: "Вторая кнопка — ссылка", type: "text" },
+      { name: "portrait_url", label: "Фото на главном экране (URL, оставьте пустым — будет рамка-плейсхолдер)", type: "url" },
+      { name: "portrait_caption_top", label: "Подпись на фото — сверху", type: "text" },
+      { name: "portrait_caption_bottom", label: "Подпись на фото — снизу (выделение)", type: "text" },
     ],
   },
   {
