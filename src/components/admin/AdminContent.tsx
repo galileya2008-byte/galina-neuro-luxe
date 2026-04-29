@@ -30,6 +30,18 @@ const BLOCKS: Block[] = [
       { name: "subtitle", label: "Подзаголовок", type: "textarea" },
       { name: "cta_label", label: "Кнопка — текст", type: "text" },
       { name: "cta_href", label: "Кнопка — ссылка (например, #courses)", type: "text" },
+      { name: "cta_secondary_label", label: "Вторая кнопка — текст (пусто = скрыть)", type: "text" },
+      { name: "cta_secondary_href", label: "Вторая кнопка — ссылка", type: "text" },
+    ],
+  },
+  {
+    key: "stats",
+    title: "Цифры на главной — заголовок секции",
+    description: "Сами цифры редактируются на вкладке «Цифры».",
+    fields: [
+      { name: "title", label: "Подпись сверху", type: "text" },
+      { name: "subtitle", label: "Заголовок (последнее слово выделится)", type: "text" },
+      { name: "description", label: "Описание", type: "textarea" },
     ],
   },
   {

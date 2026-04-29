@@ -14,6 +14,7 @@ import AdminCourses from "@/components/admin/AdminCourses";
 import AdminWhyReasons from "@/components/admin/AdminWhyReasons";
 import AdminLotusMessages from "@/components/admin/AdminLotusMessages";
 import AdminSocials from "@/components/admin/AdminSocials";
+import AdminSiteStats from "@/components/admin/AdminSiteStats";
 import { LogOut, Home } from "lucide-react";
 
 const Admin = () => {
@@ -86,6 +87,7 @@ const Admin = () => {
             <TabsTrigger value="content">Тексты сайта</TabsTrigger>
             <TabsTrigger value="courses">Курсы</TabsTrigger>
             <TabsTrigger value="why">Почему НГ</TabsTrigger>
+            <TabsTrigger value="sitestats">Цифры</TabsTrigger>
             <TabsTrigger value="lotus">Послания лотоса</TabsTrigger>
             <TabsTrigger value="socials">Соцсети</TabsTrigger>
             <TabsTrigger value="articles">Статьи</TabsTrigger>
@@ -98,6 +100,7 @@ const Admin = () => {
           <TabsContent value="content"><AdminContent /></TabsContent>
           <TabsContent value="courses"><AdminCourses /></TabsContent>
           <TabsContent value="why"><AdminWhyReasons /></TabsContent>
+          <TabsContent value="sitestats"><AdminSiteStats /></TabsContent>
           <TabsContent value="lotus"><AdminLotusMessages /></TabsContent>
           <TabsContent value="socials"><AdminSocials /></TabsContent>
           <TabsContent value="articles"><AdminArticles /></TabsContent>
