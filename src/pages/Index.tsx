@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
+import StatsSection from "@/components/StatsSection";
 import AboutSection from "@/components/AboutSection";
 import NeuroLotosSection from "@/components/NeuroLotosSection";
 import PiskarevSection from "@/components/PiskarevSection";
@@ -16,6 +17,8 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <HeroSection />
+      {/* Цифры / преимущества */}
+      <StatsSection />
       {/* Обо мне */}
       <AboutSection />
       {/* О методе (включает интерактив НейроЛотос) */}
