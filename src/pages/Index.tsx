@@ -10,6 +10,7 @@ import GallerySection from "@/components/GallerySection";
 import NewsSection from "@/components/NewsSection";
 import ArticlesSection from "@/components/ArticlesSection";
 import ContactForm from "@/components/ContactForm";
+import SocialsSection from "@/components/SocialsSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -34,8 +35,10 @@ const Index = () => {
       {/* Моя жизнь с НейроГрафикой — анонсы и статьи */}
       <NewsSection />
       <ArticlesSection />
-      {/* Контакты и соцсети */}
+      {/* Контакты */}
       <ContactForm />
+      {/* Мои соцсети */}
+      <SocialsSection />
       <Footer />
     </div>
   );
