@@ -15,6 +15,13 @@ import {
   Globe,
   Phone,
   Music,
+  Users,
+  Palette,
+  Award,
+  Target,
+  Zap,
+  Sun,
+  Flower,
   type LucideIcon,
 } from "lucide-react";
 
@@ -35,6 +42,13 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   Globe,
   Phone,
   Music,
+  Users,
+  Palette,
+  Award,
+  Target,
+  Zap,
+  Sun,
+  Flower,
 };
 
 export const ICON_NAMES = Object.keys(ICON_MAP);

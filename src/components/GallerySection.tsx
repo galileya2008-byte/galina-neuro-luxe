@@ -62,8 +62,11 @@ const GallerySection = () => {
       : [images[0]];
 
   return (
-    <section id="gallery" className="py-24 px-6">
-      <div className="container mx-auto max-w-6xl">
+    <section id="gallery" className="relative py-24 px-6 overflow-hidden">
+      <div className="absolute -top-20 right-0 w-[400px] h-[400px] rounded-full bg-accent/10 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
+
+      <div className="relative container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -71,12 +74,11 @@ const GallerySection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="font-body text-sm tracking-[0.2em] uppercase text-primary mb-3">
-            Галерея
-          </p>
+          <p className="eyebrow mb-3">Галерея</p>
           <h2 className="font-heading text-4xl md:text-5xl font-light text-foreground">
-            Мои <span className="italic text-primary">работы</span>
+            Мои <span className="italic text-gradient">работы</span>
           </h2>
+          <div className="mx-auto mt-6 h-px w-20 bg-gradient-to-r from-transparent via-primary to-transparent" />
         </motion.div>
 
         {/* Mobile: single image carousel */}

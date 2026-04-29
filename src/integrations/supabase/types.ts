@@ -278,6 +278,42 @@ export type Database = {
         }
         Relationships: []
       }
+      site_stats: {
+        Row: {
+          created_at: string
+          icon: string | null
+          id: string
+          is_published: boolean
+          label: string
+          sort_order: number
+          suffix: string | null
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_published?: boolean
+          label: string
+          sort_order?: number
+          suffix?: string | null
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_published?: boolean
+          label?: string
+          sort_order?: number
+          suffix?: string | null
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       social_links: {
         Row: {
           created_at: string
