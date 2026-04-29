@@ -127,6 +127,17 @@ const BLOCKS: Block[] = [
     ],
   },
   {
+    key: "socials_section",
+    title: "Соцсети — заголовок секции под формой",
+    description: "Сами ссылки редактируются на вкладке «Соцсети».",
+    fields: [
+      { name: "eyebrow", label: "Подпись сверху", type: "text" },
+      { name: "title", label: "Заголовок", type: "text" },
+      { name: "title_accent", label: "Заголовок — выделение", type: "text" },
+      { name: "subtitle", label: "Подзаголовок", type: "textarea" },
+    ],
+  },
+  {
     key: "contacts",
     title: "Контакты и футер",
     fields: [
