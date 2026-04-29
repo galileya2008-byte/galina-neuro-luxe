@@ -1,7 +1,19 @@
 import { motion } from "framer-motion";
 import aboutPhoto from "@/assets/about-photo.jpg";
+import { useSiteContent } from "@/hooks/useSiteContent";
+
+const DEFAULTS = {
+  eyebrow: "Обо мне",
+  title: "Путь к",
+  title_accent: "гармонии",
+  image_url: "",
+  paragraphs: [] as string[],
+};
 
 const AboutSection = () => {
+  const { value } = useSiteContent("about", DEFAULTS);
+  const imgSrc = value.image_url?.trim() ? value.image_url : aboutPhoto;
+
   return (
     <section id="about" className="py-24 px-6">
       <div className="container mx-auto max-w-6xl">
@@ -14,7 +26,7 @@ const AboutSection = () => {
           >
             <div className="relative">
               <img
-                src={aboutPhoto}
+                src={imgSrc}
                 alt="Галина Оноприенко"
                 className="rounded-2xl shadow-card w-full object-cover aspect-[4/5]"
                 loading="lazy"
@@ -32,28 +44,15 @@ const AboutSection = () => {
             transition={{ duration: 0.8 }}
           >
             <p className="font-body text-sm tracking-[0.2em] uppercase text-primary mb-3">
-              Обо мне
+              {value.eyebrow}
             </p>
             <h2 className="font-heading text-4xl md:text-5xl font-light text-foreground mb-6">
-              Путь к <span className="italic text-primary">гармонии</span>
+              {value.title} <span className="italic text-primary">{value.title_accent}</span>
             </h2>
             <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
-              <p>
-                Я — Галина Оноприенко, дипломированный Инструктор Нейрографики.
-                Помогаю людям трансформировать свою жизнь через уникальный метод
-                рисования, соединяющий творчество и нейронауку.
-              </p>
-              <p>
-                Нейрографика — это научно обоснованный метод, который позволяет
-                через рисование специальных линий перестроить нейронные связи и
-                найти решения для любых жизненных задач.
-              </p>
-              <p>
-                Каждая сессия — это путешествие внутрь себя, где вы обретаете
-                ясность, спокойствие и новые возможности.
-                <br />
-                И я сама свой кейс!
-              </p>
+              {value.paragraphs.map((p, i) => (
+                <p key={i} className="whitespace-pre-line">{p}</p>
+              ))}
             </div>
           </motion.div>
         </div>

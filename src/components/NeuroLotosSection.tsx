@@ -1,37 +1,38 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const MESSAGES = [
-  "Доверься потоку жизни — он несёт тебя туда, где ты нужна больше всего.",
-  "Сегодня прекрасный день, чтобы отпустить контроль и позволить чуду случиться.",
-  "Твоя внутренняя красота проявляется через каждый штрих, который ты создаёшь.",
-  "Перемены уже начались — просто позволь себе их заметить.",
-  "Ты заслуживаешь всего, о чём мечтаешь. Начни с маленького шага прямо сейчас.",
-  "Твоя уникальность — это дар миру. Не прячь её.",
-  "Отпусти старые убеждения — они уже не служат тебе. Новое пространство ждёт.",
-  "Каждая линия, которую ты проводишь, — это разговор с собой. Слушай внимательно.",
-  "Вселенная поддерживает тебя. Расслабься и позволь ресурсу прийти.",
-  "Сегодня идеальный день, чтобы начать рисовать свою новую реальность.",
-  "Ты сильнее, чем думаешь, и мудрее, чем предполагаешь.",
-  "Гармония внутри тебя — ключ к гармонии вокруг.",
-];
+import { supabase } from "@/integrations/supabase/client";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const PETAL_COLORS = [
-  "hsl(320, 70%, 45%)",   // fuchsia
-  "hsl(330, 65%, 55%)",   // rose
-  "hsl(310, 60%, 50%)",   // magenta
-  "hsl(340, 70%, 50%)",   // pink
-  "hsl(220, 60%, 50%)",   // blue
-  "hsl(200, 55%, 50%)",   // sky
-  "hsl(160, 50%, 42%)",   // green
-  "hsl(280, 50%, 55%)",   // violet
+  "hsl(320, 70%, 45%)",
+  "hsl(330, 65%, 55%)",
+  "hsl(310, 60%, 50%)",
+  "hsl(340, 70%, 50%)",
+  "hsl(220, 60%, 50%)",
+  "hsl(200, 55%, 50%)",
+  "hsl(160, 50%, 42%)",
+  "hsl(280, 50%, 55%)",
 ];
+
+const DEFAULTS = {
+  eyebrow: "Интерактив",
+  title: "Нейро",
+  title_accent: "Лотос",
+  subtitle: "Выберите лепесток лотоса и получите своё послание на сегодня",
+  cta_text: "Хочешь получить изменения",
+  cta_text_accent: "прямо сейчас?",
+  cta_description: "",
+  cta_button_label: "Получить урок",
+  cta_payment_url: "https://getcourse.ru",
+};
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
 const NeuroLotosSection = () => {
+  const { value } = useSiteContent("lotus", DEFAULTS);
+  const [messages, setMessages] = useState<string[]>([]);
   const [selectedMessage, setSelectedMessage] = useState<string | null>(() => {
     const saved = localStorage.getItem("neurolotus_message");
     const savedDate = localStorage.getItem("neurolotus_date");
@@ -41,31 +42,40 @@ const NeuroLotosSection = () => {
   const [usedIndices, setUsedIndices] = useState<Set<number>>(new Set());
   const [isRevealing, setIsRevealing] = useState(false);
 
-  const handlePetalClick = useCallback((petalIndex: number) => {
-    if (isRevealing || selectedMessage) return;
+  useEffect(() => {
+    supabase
+      .from("lotus_messages")
+      .select("message")
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => data && setMessages(data.map((d) => d.message)));
+  }, []);
 
-    // Check if already picked today
-    if (localStorage.getItem("neurolotus_date") === getTodayKey()) return;
+  const handlePetalClick = useCallback(
+    (_petalIndex: number) => {
+      if (isRevealing || selectedMessage || messages.length === 0) return;
+      if (localStorage.getItem("neurolotus_date") === getTodayKey()) return;
 
-    setIsRevealing(true);
+      setIsRevealing(true);
 
-    let available = MESSAGES.map((_, i) => i).filter(i => !usedIndices.has(i));
-    if (available.length === 0) {
-      setUsedIndices(new Set());
-      available = MESSAGES.map((_, i) => i);
-    }
+      let available = messages.map((_, i) => i).filter((i) => !usedIndices.has(i));
+      if (available.length === 0) {
+        setUsedIndices(new Set());
+        available = messages.map((_, i) => i);
+      }
 
-    const randomIdx = available[Math.floor(Math.random() * available.length)];
-    setUsedIndices(prev => new Set([...prev, randomIdx]));
+      const randomIdx = available[Math.floor(Math.random() * available.length)];
+      setUsedIndices((prev) => new Set([...prev, randomIdx]));
 
-    setTimeout(() => {
-      const msg = MESSAGES[randomIdx];
-      setSelectedMessage(msg);
-      localStorage.setItem("neurolotus_message", msg);
-      localStorage.setItem("neurolotus_date", getTodayKey());
-      setIsRevealing(false);
-    }, 800);
-  }, [isRevealing, usedIndices, selectedMessage]);
+      setTimeout(() => {
+        const msg = messages[randomIdx];
+        setSelectedMessage(msg);
+        localStorage.setItem("neurolotus_message", msg);
+        localStorage.setItem("neurolotus_date", getTodayKey());
+        setIsRevealing(false);
+      }, 800);
+    },
+    [isRevealing, usedIndices, selectedMessage, messages]
+  );
 
   const petalCount = 8;
   const radius = 110;
@@ -81,18 +91,14 @@ const NeuroLotosSection = () => {
           className="mb-12"
         >
           <p className="font-body text-sm tracking-[0.2em] uppercase text-accent mb-3">
-            О методе
+            {value.eyebrow}
           </p>
           <h2 className="font-heading text-4xl md:text-5xl font-light text-foreground mb-4">
-            Что такое <span className="italic text-primary">НейроГрафика</span>
+            {value.title}
+            <span className="italic text-primary">{value.title_accent}</span>
           </h2>
-          <p className="font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-6">
-            НейроГрафика — это художественный метод трансформации реальности через рисование.
-            Соединяя нейронауку, психологию и искусство, она помогает менять мышление,
-            снимать ограничения и находить решения для любых жизненных задач.
-          </p>
-          <p className="font-body text-sm text-muted-foreground italic max-w-md mx-auto">
-            А пока — попробуйте интерактив: выберите лепесток НейроЛотоса и получите послание на сегодня
+          <p className="font-body text-muted-foreground max-w-md mx-auto whitespace-pre-line">
+            {value.subtitle}
           </p>
         </motion.div>
 
@@ -103,12 +109,10 @@ const NeuroLotosSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative w-[340px] h-[340px] mx-auto mb-10"
         >
-          {/* Center circle */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center z-10 shadow-lg">
             <Sparkles className="text-primary-foreground" size={24} />
           </div>
 
-          {/* Petals */}
           {Array.from({ length: petalCount }).map((_, i) => {
             const angle = (i * 360) / petalCount - 90;
             const rad = (angle * Math.PI) / 180;
@@ -137,7 +141,6 @@ const NeuroLotosSection = () => {
           })}
         </motion.div>
 
-        {/* Message display */}
         <AnimatePresence mode="wait">
           {selectedMessage && (
             <motion.div
@@ -185,30 +188,32 @@ const NeuroLotosSection = () => {
           </motion.p>
         )}
 
-        {/* CTA block — only after picking */}
         {selectedMessage && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-14 max-w-lg mx-auto bg-card/80 backdrop-blur-sm rounded-2xl p-8 border border-border shadow-card"
-        >
-          <p className="font-heading text-xl md:text-2xl font-light text-foreground mb-3">
-            Хочешь получить изменения <span className="italic text-primary">прямо сейчас</span>?
-          </p>
-          <p className="font-body text-muted-foreground mb-6">
-            Поработай с этой моделью НейроЛотоса Посланий — видеоурок с пошаговым алгоритмом
-          </p>
-          <Button
-            size="lg"
-            className="text-base px-8"
-            onClick={() => window.open('https://getcourse.ru', '_blank')}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-14 max-w-lg mx-auto bg-card/80 backdrop-blur-sm rounded-2xl p-8 border border-border shadow-card"
           >
-            <Sparkles size={18} />
-            Получить урок — 970 ₽
-          </Button>
-        </motion.div>
+            <p className="font-heading text-xl md:text-2xl font-light text-foreground mb-3">
+              {value.cta_text}{" "}
+              <span className="italic text-primary">{value.cta_text_accent}</span>
+            </p>
+            {value.cta_description && (
+              <p className="font-body text-muted-foreground mb-6 whitespace-pre-line">
+                {value.cta_description}
+              </p>
+            )}
+            <Button
+              size="lg"
+              className="text-base px-8"
+              onClick={() => window.open(value.cta_payment_url, "_blank")}
+            >
+              <Sparkles size={18} />
+              {value.cta_button_label}
+            </Button>
+          </motion.div>
         )}
       </div>
     </section>
