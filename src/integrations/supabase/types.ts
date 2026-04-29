@@ -83,6 +83,48 @@ export type Database = {
         }
         Relationships: []
       }
+      courses: {
+        Row: {
+          created_at: string
+          description: string
+          icon: string
+          id: string
+          payment_url: string | null
+          popular: boolean
+          price: string
+          price_note: string | null
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          payment_url?: string | null
+          popular?: boolean
+          price?: string
+          price_note?: string | null
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          payment_url?: string | null
+          popular?: boolean
+          price?: string
+          price_note?: string | null
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       gallery_images: {
         Row: {
           created_at: string
@@ -110,6 +152,27 @@ export type Database = {
           sort_order?: number
           title?: string | null
           vk_album_url?: string | null
+        }
+        Relationships: []
+      }
+      lotus_messages: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          sort_order?: number
         }
         Relationships: []
       }
@@ -179,6 +242,24 @@ export type Database = {
         }
         Relationships: []
       }
+      site_content: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
       site_settings: {
         Row: {
           key: string
@@ -197,6 +278,33 @@ export type Database = {
         }
         Relationships: []
       }
+      social_links: {
+        Row: {
+          created_at: string
+          icon: string
+          id: string
+          label: string
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          icon?: string
+          id?: string
+          label: string
+          sort_order?: number
+          url: string
+        }
+        Update: {
+          created_at?: string
+          icon?: string
+          id?: string
+          label?: string
+          sort_order?: number
+          url?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -212,6 +320,36 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      why_reasons: {
+        Row: {
+          created_at: string
+          description: string
+          icon: string
+          id: string
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }

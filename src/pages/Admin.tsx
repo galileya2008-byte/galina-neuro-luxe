@@ -9,6 +9,11 @@ import AdminNews from "@/components/admin/AdminNews";
 import AdminGallery from "@/components/admin/AdminGallery";
 import AdminMessages from "@/components/admin/AdminMessages";
 import AdminStats from "@/components/admin/AdminStats";
+import AdminContent from "@/components/admin/AdminContent";
+import AdminCourses from "@/components/admin/AdminCourses";
+import AdminWhyReasons from "@/components/admin/AdminWhyReasons";
+import AdminLotusMessages from "@/components/admin/AdminLotusMessages";
+import AdminSocials from "@/components/admin/AdminSocials";
 import { LogOut, Home } from "lucide-react";
 
 const Admin = () => {
@@ -78,26 +83,26 @@ const Admin = () => {
           <TabsList className="mb-6 flex-wrap h-auto">
             <TabsTrigger value="stats">Статистика</TabsTrigger>
             <TabsTrigger value="messages">Заявки</TabsTrigger>
+            <TabsTrigger value="content">Тексты сайта</TabsTrigger>
+            <TabsTrigger value="courses">Курсы</TabsTrigger>
+            <TabsTrigger value="why">Почему НГ</TabsTrigger>
+            <TabsTrigger value="lotus">Послания лотоса</TabsTrigger>
+            <TabsTrigger value="socials">Соцсети</TabsTrigger>
             <TabsTrigger value="articles">Статьи</TabsTrigger>
             <TabsTrigger value="news">Новости</TabsTrigger>
             <TabsTrigger value="gallery">Галерея</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="stats">
-            <AdminStats />
-          </TabsContent>
-          <TabsContent value="messages">
-            <AdminMessages />
-          </TabsContent>
-          <TabsContent value="articles">
-            <AdminArticles />
-          </TabsContent>
-          <TabsContent value="news">
-            <AdminNews />
-          </TabsContent>
-          <TabsContent value="gallery">
-            <AdminGallery />
-          </TabsContent>
+          <TabsContent value="stats"><AdminStats /></TabsContent>
+          <TabsContent value="messages"><AdminMessages /></TabsContent>
+          <TabsContent value="content"><AdminContent /></TabsContent>
+          <TabsContent value="courses"><AdminCourses /></TabsContent>
+          <TabsContent value="why"><AdminWhyReasons /></TabsContent>
+          <TabsContent value="lotus"><AdminLotusMessages /></TabsContent>
+          <TabsContent value="socials"><AdminSocials /></TabsContent>
+          <TabsContent value="articles"><AdminArticles /></TabsContent>
+          <TabsContent value="news"><AdminNews /></TabsContent>
+          <TabsContent value="gallery"><AdminGallery /></TabsContent>
         </Tabs>
       </main>
     </div>

@@ -1,6 +1,9 @@
-import { Send, ExternalLink, Mail, Camera } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useSiteContent } from "@/hooks/useSiteContent";
+import { getIcon } from "@/lib/icons";
 
-const navLinks = [
+const NAV_LINKS = [
   { label: "Обо мне", href: "#about" },
   { label: "О методе", href: "#method" },
   { label: "Почему Нейрографика", href: "#why" },
@@ -9,7 +12,30 @@ const navLinks = [
   { label: "Моя жизнь с НейроГрафикой", href: "#life" },
 ];
 
+type SocialLink = {
+  id: string;
+  label: string;
+  url: string;
+  icon: string;
+};
+
+const DEFAULTS = {
+  footer_tagline:
+    "Дипломированный инструктор НейроГрафики. Помогаю трансформировать жизнь через творчество и осознанное рисование.",
+};
+
 const Footer = () => {
+  const { value } = useSiteContent("contacts", DEFAULTS);
+  const [socials, setSocials] = useState<SocialLink[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("social_links")
+      .select("id, label, url, icon")
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => data && setSocials(data));
+  }, []);
+
   return (
     <footer className="py-16 px-6 border-t border-border bg-muted/30">
       <div className="container mx-auto max-w-6xl">
@@ -18,18 +44,15 @@ const Footer = () => {
             <h3 className="font-heading text-2xl font-semibold text-primary mb-4">
               Галина Оноприенко
             </h3>
-            <p className="text-muted-foreground font-body text-sm leading-relaxed">
-              Дипломированный инструктор НейроГрафики. Помогаю трансформировать жизнь через
-              творчество и осознанное рисование.
+            <p className="text-muted-foreground font-body text-sm leading-relaxed whitespace-pre-line">
+              {value.footer_tagline}
             </p>
           </div>
 
           <div>
-            <h4 className="font-heading text-lg font-semibold text-foreground mb-4">
-              Навигация
-            </h4>
+            <h4 className="font-heading text-lg font-semibold text-foreground mb-4">Навигация</h4>
             <div className="flex flex-col gap-2">
-              {navLinks.map((item) => (
+              {NAV_LINKS.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
@@ -42,44 +65,24 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-heading text-lg font-semibold text-foreground mb-4">
-              Соцсети
-            </h4>
+            <h4 className="font-heading text-lg font-semibold text-foreground mb-4">Соцсети</h4>
             <div className="flex flex-col gap-3">
-              <a
-                href="https://t.me/neiro_galina"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors"
-              >
-                <Send size={16} />
-                Telegram-канал
-              </a>
-              <a
-                href="https://vk.com/neyrogalina"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors"
-              >
-                <ExternalLink size={16} />
-                ВКонтакте
-              </a>
-              <a
-                href="https://instagram.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors"
-              >
-                <Camera size={16} />
-                Instagram
-              </a>
-              <a
-                href="mailto:hello@example.com"
-                className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors"
-              >
-                <Mail size={16} />
-                Написать на email
-              </a>
+              {socials.map((s) => {
+                const Icon = getIcon(s.icon);
+                const isExternal = /^https?:\/\//.test(s.url);
+                return (
+                  <a
+                    key={s.id}
+                    href={s.url}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
+                    className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors"
+                  >
+                    <Icon size={16} />
+                    {s.label}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>

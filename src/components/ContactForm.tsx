@@ -6,8 +6,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useSiteContent } from "@/hooks/useSiteContent";
+
+const DEFAULTS = {
+  eyebrow: "Обратная связь",
+  title: "Задать",
+  title_accent: "вопрос",
+};
 
 const ContactForm = () => {
+  const { value: content } = useSiteContent("contacts", DEFAULTS);
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -69,10 +77,10 @@ const ContactForm = () => {
           className="text-center mb-12"
         >
           <p className="font-body text-sm tracking-[0.2em] uppercase text-accent mb-3">
-            Обратная связь
+            {content.eyebrow}
           </p>
           <h2 className="font-heading text-4xl md:text-5xl font-light text-foreground">
-            Задать <span className="italic text-accent">вопрос</span>
+            {content.title} <span className="italic text-accent">{content.title_accent}</span>
           </h2>
         </motion.div>
 
