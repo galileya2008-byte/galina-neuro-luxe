@@ -15,7 +15,6 @@ import {
   Globe,
   Phone,
   Music,
-  Youtube,
   type LucideIcon,
 } from "lucide-react";
 
@@ -36,7 +35,6 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   Globe,
   Phone,
   Music,
-  Youtube,
 };
 
 export const ICON_NAMES = Object.keys(ICON_MAP);
