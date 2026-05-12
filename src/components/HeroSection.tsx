@@ -15,7 +15,7 @@ const DEFAULTS = {
   cta_secondary_label: "Смотреть работы",
   cta_secondary_href: "#gallery",
   portrait_url: galinaPortrait,
-  portrait_caption_top: "Автор и инструктор",
+  portrait_caption_top: "Бережно к твоей цели",
   portrait_caption_bottom: "Галина Оноприенко",
 };
 
