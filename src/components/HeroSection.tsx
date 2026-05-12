@@ -116,9 +116,9 @@ const HeroSection = () => {
           {/* Outer thin frame */}
           <div className="relative rounded-[2rem] p-[1px] bg-gradient-to-br from-primary/40 via-secondary/30 to-accent/40 shadow-elegant animate-float-slow">
             <div className="relative aspect-[4/5] rounded-[1.95rem] overflow-hidden glass">
-              {value.portrait_url ? (
+              {(value.portrait_url || galinaPortrait) ? (
                 <img
-                  src={value.portrait_url}
+                  src={value.portrait_url || galinaPortrait}
                   alt={value.portrait_caption_bottom || "Портрет"}
                   className="w-full h-full object-cover"
                 />
