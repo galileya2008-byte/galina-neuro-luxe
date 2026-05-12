@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import aboutPhoto from "@/assets/about-photo.jpg";
+import aboutPhoto from "@/assets/about-photo-new.jpg";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
 const DEFAULTS = {
