@@ -7,8 +7,8 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 const DEFAULTS = {
   eyebrow: "Инструктор нейрографики",
-  name_line_1: "Галина",
-  name_line_2: "Оноприенко",
+  name_line_1: "Школа Нейрографики",
+  name_line_2: "Галины Оноприенко",
   subtitle: "Трансформация через творчество. Нейрографика — метод, который меняет жизнь через рисование линий.",
   cta_label: "Узнать больше",
   cta_href: "#courses",
