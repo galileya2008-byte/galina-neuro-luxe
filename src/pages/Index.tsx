@@ -22,8 +22,6 @@ const Index = () => {
       <StatsSection />
       {/* Обо мне */}
       <AboutSection />
-      {/* О методе (включает интерактив НейроЛотос) */}
-      <NeuroLotosSection />
       {/* Об авторе метода */}
       <PiskarevSection />
       {/* Почему Нейрографика */}
