@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import StatsSection from "@/components/StatsSection";
 import AboutSection from "@/components/AboutSection";
-import NeuroLotosSection from "@/components/NeuroLotosSection";
+
 import PiskarevSection from "@/components/PiskarevSection";
 import WhyNeurographicsSection from "@/components/WhyNeurographicsSection";
 import ServicesSection from "@/components/ServicesSection";
@@ -22,8 +22,6 @@ const Index = () => {
       <StatsSection />
       {/* Обо мне */}
       <AboutSection />
-      {/* О методе (включает интерактив НейроЛотос) */}
-      <NeuroLotosSection />
       {/* Об авторе метода */}
       <PiskarevSection />
       {/* Почему Нейрографика */}
