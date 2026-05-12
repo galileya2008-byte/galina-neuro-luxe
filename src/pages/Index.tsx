@@ -9,6 +9,7 @@ import ServicesSection from "@/components/ServicesSection";
 import GallerySection from "@/components/GallerySection";
 import NewsSection from "@/components/NewsSection";
 import ArticlesSection from "@/components/ArticlesSection";
+import EventsCalendarSection from "@/components/EventsCalendarSection";
 import ContactForm from "@/components/ContactForm";
 import SocialsSection from "@/components/SocialsSection";
 import Footer from "@/components/Footer";
@@ -33,6 +34,8 @@ const Index = () => {
       {/* Моя жизнь с НейроГрафикой — анонсы и статьи */}
       <NewsSection />
       <ArticlesSection />
+      {/* Календарь событий */}
+      <EventsCalendarSection />
       {/* Контакты */}
       <ContactForm />
       {/* Мои соцсети */}

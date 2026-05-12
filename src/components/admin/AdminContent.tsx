@@ -127,6 +127,15 @@ const BLOCKS: Block[] = [
     ],
   },
   {
+    key: "events_section",
+    title: "Календарь событий — заголовок секции",
+    description: "Сами события редактируются на вкладке «События».",
+    fields: [
+      { name: "title", label: "Заголовок (последнее слово выделится)", type: "text" },
+      { name: "subtitle", label: "Подзаголовок", type: "textarea" },
+    ],
+  },
+  {
     key: "socials_section",
     title: "Соцсети — заголовок секции под формой",
     description: "Сами ссылки редактируются на вкладке «Соцсети».",
