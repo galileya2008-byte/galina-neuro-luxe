@@ -8,7 +8,7 @@ const DEFAULTS = {
   image_url: "https://neurographica.metamodern.ru/local/templates/.default/kartiny/pavel-index2.webp",
   paragraphs: [] as string[],
   link_label: "Институт Психологии Творчества",
-  link_url: "https://neurograff.com/",
+  link_url: "https://neuro.piskarev.ru",
 };
 
 const PiskarevSection = () => {
