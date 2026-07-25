@@ -37,9 +37,9 @@ const NewsPage = () => {
 
   useEffect(() => {
     if (!item) return;
-    document.title = `${item.title} — Галина Оноприенко`;
+    document.title = `${item.title} — Любовь Савенкова`;
     return () => {
-      document.title = "Галина Оноприенко — Нейрографика";
+      document.title = "Любовь Савенкова — Нейрографика";
     };
   }, [item]);
 

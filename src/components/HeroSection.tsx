@@ -8,7 +8,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 const DEFAULTS = {
   eyebrow: "Инструктор нейрографики",
   name_line_1: "Школа Нейрографики",
-  name_line_2: "Галины Оноприенко",
+  name_line_2: "Любови Савенковой",
   subtitle: "Трансформация через творчество. Нейрографика — метод, который меняет жизнь через рисование линий.",
   cta_label: "Узнать больше",
   cta_href: "#courses",
@@ -16,7 +16,7 @@ const DEFAULTS = {
   cta_secondary_href: "#gallery",
   portrait_url: galinaPortrait,
   portrait_caption_top: "Бережно к твоей цели",
-  portrait_caption_bottom: "Галина Оноприенко",
+  portrait_caption_bottom: "Любовь Савенкова",
 };
 
 const HeroSection = () => {

@@ -39,7 +39,7 @@ const ArticlePage = () => {
   useEffect(() => {
     if (!article) return;
 
-    document.title = `${article.title} — Галина Оноприенко`;
+    document.title = `${article.title} — Любовь Савенкова`;
 
     const setMeta = (name: string, content: string, attr = "name") => {
       let el = document.querySelector(`meta[${attr}="${name}"]`);
@@ -75,11 +75,11 @@ const ArticlePage = () => {
       dateModified: article.updated_at,
       author: {
         "@type": "Person",
-        name: "Галина Оноприенко",
+        name: "Любовь Савенкова",
       },
       publisher: {
         "@type": "Organization",
-        name: "Галина Оноприенко — Нейрографика",
+        name: "Любовь Савенкова — Нейрографика",
       },
     };
 
@@ -93,7 +93,7 @@ const ArticlePage = () => {
     scriptEl.textContent = JSON.stringify(jsonLd);
 
     return () => {
-      document.title = "Галина Оноприенко — Нейрографика";
+      document.title = "Любовь Савенкова — Нейрографика";
       scriptEl?.remove();
     };
   }, [article]);

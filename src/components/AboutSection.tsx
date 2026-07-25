@@ -27,7 +27,7 @@ const AboutSection = () => {
             <div className="relative">
               <img
                 src={imgSrc}
-                alt="Галина Оноприенко"
+                alt="Любовь Савенкова"
                 className="rounded-2xl shadow-card w-full object-cover aspect-[4/5]"
                 loading="lazy"
                 width={800}
