@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import heroBg from "@/assets/hero-bg.jpg";
-import galinaPortrait from "@/assets/galina-portrait.png";
+import heroPortrait from "@/assets/hero-portrait.png";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import NeuroLines from "@/components/NeuroLines";
 import { ArrowRight, Sparkles } from "lucide-react";
