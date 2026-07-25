@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import heroBg from "@/assets/hero-bg.jpg";
-import galinaPortrait from "@/assets/galina-portrait.png";
+import heroPortrait from "@/assets/hero-portrait.png";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import NeuroLines from "@/components/NeuroLines";
 import { ArrowRight, Sparkles } from "lucide-react";
@@ -8,15 +8,15 @@ import { ArrowRight, Sparkles } from "lucide-react";
 const DEFAULTS = {
   eyebrow: "Инструктор нейрографики",
   name_line_1: "Школа Нейрографики",
-  name_line_2: "Галины Оноприенко",
+  name_line_2: "Любови Савенковой",
   subtitle: "Трансформация через творчество. Нейрографика — метод, который меняет жизнь через рисование линий.",
   cta_label: "Узнать больше",
   cta_href: "#courses",
   cta_secondary_label: "Смотреть работы",
   cta_secondary_href: "#gallery",
-  portrait_url: galinaPortrait,
+  portrait_url: heroPortrait,
   portrait_caption_top: "Бережно к твоей цели",
-  portrait_caption_bottom: "Галина Оноприенко",
+  portrait_caption_bottom: "Любовь Савенкова",
 };
 
 const HeroSection = () => {
@@ -116,9 +116,9 @@ const HeroSection = () => {
           {/* Outer thin frame */}
           <div className="relative rounded-[2rem] p-[1px] bg-gradient-to-br from-primary/40 via-secondary/30 to-accent/40 shadow-elegant animate-float-slow">
             <div className="relative aspect-[4/5] rounded-[1.95rem] overflow-hidden glass">
-              {(value.portrait_url || galinaPortrait) ? (
+              {(value.portrait_url || heroPortrait) ? (
                 <img
-                  src={value.portrait_url || galinaPortrait}
+                  src={value.portrait_url || heroPortrait}
                   alt={value.portrait_caption_bottom || "Портрет"}
                   className="w-full h-full object-cover"
                 />

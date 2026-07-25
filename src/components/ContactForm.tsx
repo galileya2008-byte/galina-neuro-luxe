@@ -58,7 +58,7 @@ const ContactForm = () => {
 
       toast({
         title: "Сообщение отправлено!",
-        description: "Галина свяжется с вами в ближайшее время",
+        description: "Любовь свяжется с вами в ближайшее время",
       });
       setFormData({ name: "", email: "", message: "" });
     }

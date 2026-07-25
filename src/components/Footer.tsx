@@ -42,7 +42,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-12">
           <div>
             <h3 className="font-heading text-2xl font-semibold text-primary mb-4">
-              Галина Оноприенко
+              Любовь Савенкова
             </h3>
             <p className="text-muted-foreground font-body text-sm leading-relaxed whitespace-pre-line">
               {value.footer_tagline}
@@ -89,7 +89,7 @@ const Footer = () => {
 
         <div className="mt-12 pt-8 border-t border-border text-center flex flex-col items-center gap-2">
           <p className="text-muted-foreground font-body text-xs">
-            © {new Date().getFullYear()} Галина Оноприенко. Все права защищены.
+            © {new Date().getFullYear()} Любовь Савенкова. Все права защищены.
           </p>
           <a
             href="/admin-login"
