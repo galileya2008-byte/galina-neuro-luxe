@@ -1,6 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  COOKIE_CONSENT_EVENT,
+  hasAnalyticsConsent,
+} from "@/lib/cookieConsent";
 
 declare global {
   interface Window {
@@ -15,7 +19,6 @@ const loadMetrika = (id: string) => {
   if (loadedId === id) return;
   loadedId = id;
 
-  // Official Yandex.Metrika snippet (inlined)
   (function (m: any, e: any, t: any, r: any, i: any, k?: any, a?: any) {
     m[i] =
       m[i] ||
@@ -43,9 +46,16 @@ const loadMetrika = (id: string) => {
 
 const YandexMetrika = () => {
   const location = useLocation();
+  const [consentGranted, setConsentGranted] = useState(hasAnalyticsConsent);
 
   useEffect(() => {
-    if (location.pathname.startsWith("/admin")) return;
+    const sync = () => setConsentGranted(hasAnalyticsConsent());
+    window.addEventListener(COOKIE_CONSENT_EVENT, sync);
+    return () => window.removeEventListener(COOKIE_CONSENT_EVENT, sync);
+  }, []);
+
+  useEffect(() => {
+    if (!consentGranted || location.pathname.startsWith("/admin")) return;
 
     let cancelled = false;
     (async () => {
@@ -65,18 +75,17 @@ const YandexMetrika = () => {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [consentGranted]);
 
-  // SPA hit on route change
   useEffect(() => {
-    if (location.pathname.startsWith("/admin")) return;
+    if (!consentGranted || location.pathname.startsWith("/admin")) return;
     if (loadedId && window.ym) {
       window.ym(Number(loadedId), "hit", window.location.href, {
         title: document.title,
         referer: document.referrer,
       });
     }
-  }, [location.pathname]);
+  }, [location.pathname, consentGranted]);
 
   return null;
 };

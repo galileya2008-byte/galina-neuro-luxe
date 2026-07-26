@@ -101,16 +101,32 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="mt-16 pt-8 border-t border-primary-foreground/10 flex flex-col items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <Link
+              to="/offer"
+              className="font-body text-xs text-primary-foreground/50 hover:text-primary-foreground/80 transition-colors"
+            >
+              Публичная оферта
+            </Link>
+            <span className="text-primary-foreground/20 hidden sm:inline">·</span>
+            <Link
+              to="/offer#cookies"
+              className="font-body text-xs text-primary-foreground/50 hover:text-primary-foreground/80 transition-colors"
+            >
+              Cookie
+            </Link>
+            <span className="text-primary-foreground/20 hidden sm:inline">·</span>
+            <Link
+              to="/admin-login"
+              className="font-body text-xs text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors"
+            >
+              Вход для админа
+            </Link>
+          </div>
           <p className="font-body text-xs text-primary-foreground/45">
             © {new Date().getFullYear()} Любовь Савенкова. Все права защищены.
           </p>
-          <Link
-            to="/admin-login"
-            className="font-body text-[10px] tracking-wider uppercase text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors"
-          >
-            Вход для админа
-          </Link>
         </div>
       </div>
     </footer>

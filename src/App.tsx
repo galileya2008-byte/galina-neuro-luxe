@@ -10,8 +10,10 @@ import NotFound from "./pages/NotFound.tsx";
 import ArticlePage from "./pages/ArticlePage.tsx";
 import NewsPage from "./pages/NewsPage.tsx";
 import GalleryPage from "./pages/GalleryPage.tsx";
+import OfferPage from "./pages/OfferPage.tsx";
 import PageTracker from "./hooks/usePageTracking.tsx";
 import YandexMetrika from "./components/YandexMetrika.tsx";
+import CookieConsent from "./components/CookieConsent.tsx";
 
 const queryClient = new QueryClient();
 
@@ -25,8 +27,10 @@ const App = () => (
       <BrowserRouter basename={routerBasename || undefined}>
         <PageTracker />
         <YandexMetrika />
+        <CookieConsent />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/offer" element={<OfferPage />} />
           <Route path="/articles/:slug" element={<ArticlePage />} />
           <Route path="/news/:slug" element={<NewsPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
