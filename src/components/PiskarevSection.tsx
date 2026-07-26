@@ -17,8 +17,8 @@ const DEFAULTS = {
   title_accent: "Пискарёв",
   image_url: "",
   paragraphs: DEFAULT_PARAGRAPHS,
-  link_label: "Официальный сайт автора метода",
-  link_url: "https://neuro.piskarev.ru",
+  link_label: "Узнать больше об авторе и методе",
+  link_url: "https://neuro.piskarev.ru/",
 };
 
 const CREDENTIALS = ["Ph.D.", "Профессор", "Автор НейроГрафики"];
@@ -34,6 +34,19 @@ const PiskarevSection = () => {
 
   const paragraphs =
     value.paragraphs.length > 0 ? value.paragraphs : DEFAULT_PARAGRAPHS;
+
+  const legacyLinkLabels = new Set([
+    "Институт Психологии Творчества",
+    "Официальный сайт автора метода",
+  ]);
+  const linkLabel =
+    value.link_label?.trim() && !legacyLinkLabels.has(value.link_label.trim())
+      ? value.link_label.trim()
+      : DEFAULTS.link_label;
+  const linkUrl =
+    value.link_url?.trim() && !value.link_url.includes("neurograff.com")
+      ? value.link_url.trim()
+      : DEFAULTS.link_url;
 
   return (
     <section id="author" className="py-24 px-6 bg-muted/30">
@@ -110,15 +123,15 @@ const PiskarevSection = () => {
               ))}
             </div>
 
-            {value.link_url && value.link_label && (
+            {linkUrl && linkLabel && (
               <div className="mt-8 pt-8 border-t border-border">
                 <a
-                  href={value.link_url}
+                  href={linkUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-xl bg-secondary/10 px-5 py-3 text-base font-medium text-foreground transition-colors hover:bg-secondary/20"
                 >
-                  {value.link_label}
+                  {linkLabel}
                   <ExternalLink size={18} className="text-secondary" />
                 </a>
               </div>
