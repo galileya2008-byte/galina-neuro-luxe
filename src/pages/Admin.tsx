@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
 import AdminArticles from "@/components/admin/AdminArticles";
 import AdminNews from "@/components/admin/AdminNews";
 import AdminGallery from "@/components/admin/AdminGallery";
@@ -17,39 +16,69 @@ import AdminSocials from "@/components/admin/AdminSocials";
 import AdminSiteStats from "@/components/admin/AdminSiteStats";
 import AdminEvents from "@/components/admin/AdminEvents";
 import { LogOut, Home } from "lucide-react";
+import { checkIsAdmin } from "@/lib/adminAuth";
 
 const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { toast } = useToast();
 
-  useEffect(() => {
-    checkAdmin();
-  }, []);
+  const verifyAdmin = useCallback(async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  const checkAdmin = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
+      setIsAdmin(false);
+      setUserEmail(null);
       navigate("/admin-login");
-      return;
+      return false;
     }
 
-    const { data: roles } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", user.id)
-      .eq("role", "admin");
+    const admin = await checkIsAdmin(user.id);
 
-    if (!roles || roles.length === 0) {
+    if (!admin) {
       await supabase.auth.signOut();
+      setIsAdmin(false);
+      setUserEmail(null);
       navigate("/admin-login");
-      return;
+      return false;
     }
 
+    setUserEmail(user.email ?? null);
     setIsAdmin(true);
     setLoading(false);
-  };
+    return true;
+  }, [navigate]);
+
+  useEffect(() => {
+    verifyAdmin();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session?.user) {
+        setIsAdmin(false);
+        setUserEmail(null);
+        navigate("/admin-login");
+        return;
+      }
+
+      checkIsAdmin(session.user.id).then((admin) => {
+        if (!admin) {
+          supabase.auth.signOut();
+          navigate("/admin-login");
+          return;
+        }
+        setUserEmail(session.user.email ?? null);
+        setIsAdmin(true);
+        setLoading(false);
+      });
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate, verifyAdmin]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -68,8 +97,11 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border px-6 py-4 flex items-center justify-between">
-        <h1 className="font-heading text-2xl text-primary">Админ-панель</h1>
+      <header className="border-b border-border px-6 py-4 flex items-center justify-between gap-4">
+        <div>
+          <h1 className="font-heading text-2xl text-primary">Админ-панель</h1>
+          {userEmail && <p className="text-sm text-muted-foreground mt-1">{userEmail}</p>}
+        </div>
         <div className="flex gap-2">
           <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
             <Home size={16} /> На сайт
