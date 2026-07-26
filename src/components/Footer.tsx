@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { getIcon } from "@/lib/icons";
@@ -91,12 +92,12 @@ const Footer = () => {
           <p className="text-muted-foreground font-body text-xs">
             © {new Date().getFullYear()} Любовь Савенкова. Все права защищены.
           </p>
-          <a
-            href="/admin-login"
+          <Link
+            to="/admin-login"
             className="text-muted-foreground/50 font-body text-[10px] hover:text-muted-foreground transition-colors"
           >
             Вход для админа
-          </a>
+          </Link>
         </div>
       </div>
     </footer>

@@ -15,12 +15,14 @@ import YandexMetrika from "./components/YandexMetrika.tsx";
 
 const queryClient = new QueryClient();
 
+const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename={routerBasename || undefined}>
         <PageTracker />
         <YandexMetrika />
         <Routes>

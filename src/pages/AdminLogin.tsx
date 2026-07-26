@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -64,9 +64,9 @@ const AdminLogin = () => {
             {loading ? "Вход..." : "Войти"}
           </Button>
         </form>
-        <a href="/" className="block text-center mt-4 text-sm text-muted-foreground hover:text-primary">
+        <Link to="/" className="block text-center mt-4 text-sm text-muted-foreground hover:text-primary">
           ← На главную
-        </a>
+        </Link>
       </div>
     </div>
   );
