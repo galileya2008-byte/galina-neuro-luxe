@@ -74,7 +74,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="font-body text-base md:text-lg text-muted-foreground mt-6 max-w-xl whitespace-pre-line leading-relaxed"
+            className="font-body text-base md:text-lg text-foreground/75 mt-6 max-w-xl whitespace-pre-line leading-relaxed"
           >
             {value.subtitle}
           </motion.p>
@@ -87,7 +87,7 @@ const HeroSection = () => {
           >
             <a
               href={value.cta_href}
-              className="group inline-flex items-center gap-2 gradient-primary text-primary-foreground font-display font-medium px-7 py-3.5 rounded-full shadow-glow hover:shadow-elegant transition-all duration-500"
+              className="group btn-luxe btn-luxe-primary"
             >
               {value.cta_label}
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -95,7 +95,7 @@ const HeroSection = () => {
             {value.cta_secondary_label && (
               <a
                 href={value.cta_secondary_href}
-                className="inline-flex items-center gap-2 glass text-foreground font-display font-medium px-7 py-3.5 rounded-full hover:bg-card transition-colors"
+                className="btn-luxe btn-luxe-outline"
               >
                 {value.cta_secondary_label}
               </a>
@@ -154,7 +154,7 @@ const HeroSection = () => {
             transition={{ duration: 0.7, delay: 0.9 }}
             className="hidden md:block absolute -bottom-6 -left-6 glass rounded-2xl px-5 py-3 shadow-card"
           >
-            <p className="font-display text-[10px] text-muted-foreground tracking-[0.3em] uppercase">
+            <p className="font-body text-[10px] text-muted-foreground tracking-[0.3em] uppercase">
               {value.portrait_caption_top}
             </p>
             <p className="font-heading text-xl italic text-gradient">
@@ -170,7 +170,7 @@ const HeroSection = () => {
             className="hidden md:flex absolute -top-5 -right-5 glass rounded-full w-20 h-20 flex-col items-center justify-center shadow-card"
           >
             <span className="font-heading text-2xl text-primary leading-none">7+</span>
-            <span className="font-display text-[9px] tracking-[0.2em] uppercase text-muted-foreground mt-1">лет</span>
+            <span className="font-body text-[9px] tracking-[0.2em] uppercase text-muted-foreground mt-1">лет</span>
           </motion.div>
         </motion.div>
       </div>
@@ -180,9 +180,10 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4, duration: 0.6 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[10px] tracking-[0.3em] uppercase text-muted-foreground/70 font-body"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[10px] tracking-[0.28em] uppercase text-muted-foreground/60 font-body"
       >
-        scroll ↓
+        <span className="w-px h-8 bg-gradient-to-b from-transparent via-accent/60 to-accent/20" />
+        листайте
       </motion.div>
     </section>
   );

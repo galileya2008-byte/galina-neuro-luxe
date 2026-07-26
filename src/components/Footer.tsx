@@ -38,26 +38,35 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="py-16 px-6 border-t border-border bg-muted/30">
-      <div className="container mx-auto max-w-6xl">
-        <div className="grid md:grid-cols-3 gap-12">
+    <footer className="relative mt-8 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/95 to-secondary pointer-events-none" />
+      <div className="absolute inset-0 opacity-[0.04] bg-[radial-gradient(circle_at_30%_20%,hsl(38_60%_70%),transparent_50%)] pointer-events-none" />
+
+      <div className="relative container mx-auto max-w-6xl px-6 pt-20 pb-10">
+        <div className="divider-ornament mb-12">
+          <span className="font-heading text-2xl italic text-gold">✦</span>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-12 md:gap-16">
           <div>
-            <h3 className="font-heading text-2xl font-semibold text-primary mb-4">
-              Любовь Савенкова
+            <h3 className="font-heading text-3xl font-light text-primary-foreground mb-2">
+              Любовь <span className="italic text-gold">Савенкова</span>
             </h3>
-            <p className="text-muted-foreground font-body text-sm leading-relaxed whitespace-pre-line">
+            <p className="font-body text-sm text-primary-foreground/65 leading-relaxed whitespace-pre-line max-w-sm">
               {value.footer_tagline}
             </p>
           </div>
 
           <div>
-            <h4 className="font-heading text-lg font-semibold text-foreground mb-4">Навигация</h4>
-            <div className="flex flex-col gap-2">
+            <h4 className="font-body text-[11px] tracking-[0.28em] uppercase text-gold mb-5 font-semibold">
+              Навигация
+            </h4>
+            <div className="flex flex-col gap-2.5">
               {NAV_LINKS.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="text-muted-foreground font-body text-sm hover:text-primary transition-colors"
+                  className="font-body text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
                 >
                   {item.label}
                 </a>
@@ -66,7 +75,9 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-heading text-lg font-semibold text-foreground mb-4">Соцсети</h4>
+            <h4 className="font-body text-[11px] tracking-[0.28em] uppercase text-gold mb-5 font-semibold">
+              Соцсети
+            </h4>
             <div className="flex flex-col gap-3">
               {socials.map((s) => {
                 const Icon = getIcon(s.icon);
@@ -77,9 +88,11 @@ const Footer = () => {
                     href={s.url}
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}
-                    className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors"
+                    className="inline-flex items-center gap-2.5 font-body text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors group"
                   >
-                    <Icon size={16} />
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-primary-foreground/15 group-hover:border-accent/50 group-hover:bg-accent/10 transition-colors">
+                      <Icon size={14} />
+                    </span>
                     {s.label}
                   </a>
                 );
@@ -88,13 +101,13 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border text-center flex flex-col items-center gap-2">
-          <p className="text-muted-foreground font-body text-xs">
+        <div className="mt-16 pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row items-center justify-between gap-3">
+          <p className="font-body text-xs text-primary-foreground/45">
             © {new Date().getFullYear()} Любовь Савенкова. Все права защищены.
           </p>
           <Link
             to="/admin-login"
-            className="text-muted-foreground/50 font-body text-[10px] hover:text-muted-foreground transition-colors"
+            className="font-body text-[10px] tracking-wider uppercase text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors"
           >
             Вход для админа
           </Link>

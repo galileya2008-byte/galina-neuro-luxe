@@ -15,8 +15,7 @@ export default {
     extend: {
       fontFamily: {
         heading: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        body: ['Raleway', 'sans-serif'],
-        display: ['"Space Grotesk"', 'Raleway', 'sans-serif'],
+        body: ['Manrope', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

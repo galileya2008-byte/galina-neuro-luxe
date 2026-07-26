@@ -78,7 +78,7 @@ const ServicesSection = () => {
                   }`}
                 >
                   {service.popular && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 gradient-primary text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-display font-medium px-4 py-1.5 rounded-full shadow-glow">
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 gradient-primary text-primary-foreground text-[10px] tracking-[0.2em] uppercase font-body font-semibold px-4 py-1.5 rounded-full shadow-glow">
                       Популярный
                     </span>
                   )}
@@ -99,7 +99,7 @@ const ServicesSection = () => {
                     </p>
                   )}
                   <Button
-                    className="w-full gradient-primary text-primary-foreground font-display font-medium mt-6 rounded-full py-6 shadow-soft hover:shadow-glow transition-shadow"
+                    className="w-full gradient-primary text-primary-foreground font-body font-semibold mt-6 rounded-full py-6 shadow-soft hover:shadow-glow transition-shadow"
                     onClick={() =>
                       service.payment_url
                         ? window.open(service.payment_url, "_blank")

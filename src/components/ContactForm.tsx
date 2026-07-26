@@ -90,7 +90,7 @@ const ContactForm = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.15 }}
           onSubmit={handleSubmit}
-          className="bg-card rounded-2xl p-8 shadow-card border border-border space-y-5"
+          className="card-luxe p-8 md:p-10 space-y-5"
         >
           <div>
             <label className="font-body text-sm font-medium text-foreground mb-1.5 block">

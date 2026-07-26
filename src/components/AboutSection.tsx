@@ -25,10 +25,11 @@ const AboutSection = () => {
             transition={{ duration: 0.8 }}
           >
             <div className="relative">
+              <div className="absolute -inset-3 rounded-[1.75rem] bg-gradient-to-br from-primary/15 via-transparent to-accent/20 blur-md pointer-events-none" />
               <img
                 src={imgSrc}
                 alt="Любовь Савенкова"
-                className="rounded-2xl shadow-card w-full object-cover aspect-[4/5]"
+                className="relative rounded-2xl shadow-elegant w-full object-cover aspect-[4/5] ring-1 ring-border/60"
                 loading="lazy"
                 width={800}
                 height={1000}
@@ -49,7 +50,7 @@ const AboutSection = () => {
             <h2 className="font-heading text-4xl md:text-5xl font-light text-foreground mb-6">
               {value.title} <span className="italic text-primary">{value.title_accent}</span>
             </h2>
-            <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
+            <div className="space-y-5 text-foreground/80 font-body text-base md:text-lg leading-relaxed">
               {value.paragraphs.map((p, i) => (
                 <p key={i} className="whitespace-pre-line">{p}</p>
               ))}
