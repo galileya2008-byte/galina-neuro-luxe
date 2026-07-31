@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import aboutPhoto from "@/assets/about-photo-new.jpg";
+import aboutPhoto from "@/assets/about-photo-new.png";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
 const DEFAULTS = {
@@ -29,10 +29,10 @@ const AboutSection = () => {
               <img
                 src={imgSrc}
                 alt="Любовь Савенкова"
-                className="relative rounded-2xl shadow-elegant w-full object-cover aspect-[4/5] ring-1 ring-border/60"
+                className="relative rounded-2xl shadow-elegant w-full object-cover aspect-[3/2] ring-1 ring-border/60"
                 loading="lazy"
-                width={800}
-                height={1000}
+                width={1200}
+                height={800}
               />
               <div className="absolute -bottom-4 -right-4 w-32 h-32 rounded-2xl bg-primary/10 -z-10" />
             </div>

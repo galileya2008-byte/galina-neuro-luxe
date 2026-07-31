@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://galileya2008-byte.github.io/galina-neuro-luxe/sitemap.xml

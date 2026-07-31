@@ -43,7 +43,7 @@ END $$;
 INSERT INTO public.user_roles (user_id, role)
 SELECT id, 'admin'::public.app_role
 FROM auth.users
-WHERE email = 'admin@example.com'
+WHERE email = 'galileya2008@yandex.ru'
 ON CONFLICT (user_id, role) DO NOTHING;
 
 -- ШАГ D. Authentication → URL Configuration:

@@ -14,6 +14,7 @@ import OfferPage from "./pages/OfferPage.tsx";
 import PageTracker from "./hooks/usePageTracking.tsx";
 import YandexMetrika from "./components/YandexMetrika.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
+import ScrollToTop from "./components/ScrollToTop.tsx";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter basename={routerBasename || undefined}>
+        <ScrollToTop />
         <PageTracker />
         <YandexMetrika />
         <CookieConsent />

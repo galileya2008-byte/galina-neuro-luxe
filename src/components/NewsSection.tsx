@@ -30,11 +30,11 @@ const NewsSection = () => {
     fetchNews();
   }, []);
 
-  if (news.length === 0) return null;
-
   return (
-    <section id="life" className="py-24 px-6 bg-background">
-      <div className="container mx-auto max-w-6xl">
+    <section id="life" className="relative py-24 px-6 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/30 to-background pointer-events-none" />
+
+      <div className="relative container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -42,14 +42,28 @@ const NewsSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="font-body text-sm tracking-[0.2em] uppercase text-primary mb-3">
-            Анонсы и события
-          </p>
+          <p className="eyebrow mb-3">Анонсы и события</p>
           <h2 className="font-heading text-4xl md:text-5xl font-light text-foreground">
-            Моя жизнь с <span className="italic text-primary">НейроГрафикой</span>
+            Моя жизнь с <span className="italic text-gradient">НейроГрафикой</span>
           </h2>
+          <div className="mx-auto mt-6 h-px w-20 bg-gradient-to-r from-transparent via-primary to-transparent" />
         </motion.div>
 
+        {news.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="glass rounded-3xl p-10 md:p-12 text-center max-w-2xl mx-auto"
+          >
+            <Calendar className="w-8 h-8 text-primary mx-auto mb-4" />
+            <p className="font-heading text-xl text-foreground mb-2">Скоро здесь появятся новости</p>
+            <p className="text-muted-foreground font-body text-sm leading-relaxed">
+              Анонсы мастер-классов, встреч и событий из мира нейрографики — следите за обновлениями
+              или запишитесь через форму на главной.
+            </p>
+          </motion.div>
+        ) : (
         <div className="grid md:grid-cols-2 gap-6">
           {news.map((item, index) => (
             <Link key={item.id} to={`/news/${item.slug}`}>
@@ -58,7 +72,7 @@ const NewsSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-card rounded-2xl border border-border p-6 hover:border-primary/30 transition-colors"
+                className="glass rounded-3xl p-6 hover:-translate-y-1 hover:shadow-glow transition-all duration-500"
               >
                 <div className="flex items-center gap-2 text-primary mb-3">
                   <Calendar size={16} />
@@ -85,6 +99,7 @@ const NewsSection = () => {
             </Link>
           ))}
         </div>
+        )}
       </div>
     </section>
   );
